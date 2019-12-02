@@ -1,11 +1,10 @@
-using System.Reflection;
 using Data.Context.Configuration;
 using Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : DbContext, IAppDbContext
     {
         public DbSet<Album> Albums { get; set; }
         public DbSet<AlbumImage> AlbumImages { get; set; }
