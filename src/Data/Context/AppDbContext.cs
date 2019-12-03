@@ -6,6 +6,8 @@ namespace Data.Context
 {
     public class AppDbContext : DbContext, IAppDbContext
     {
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
+
         public DbSet<Album> Albums { get; set; }
         public DbSet<AlbumImage> AlbumImages { get; set; }
         public DbSet<ContactForm> ContactForms { get; set; }
