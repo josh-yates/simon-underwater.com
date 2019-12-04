@@ -14,6 +14,9 @@ project.lock.json
 *.userosscache
 *.sln.docstates
 
+# Secret files
+appsettings.secrets.*.json
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/

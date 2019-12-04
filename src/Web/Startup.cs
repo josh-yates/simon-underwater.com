@@ -15,9 +15,12 @@ namespace Web
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
+                // Global - in source control
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
+                // Environment - in source control
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                // Environment secrets - out of source control
+                .AddJsonFile($"appsettings.secrets.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .Build();
         }
