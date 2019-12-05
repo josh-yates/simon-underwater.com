@@ -28,7 +28,7 @@ namespace Web.Utilities
                     case "SQLSERVER":
                         var connectionString = databaseSection.GetValue<string>("ConnectionString") ??
                             throw new InvalidDataException("Database connection string not found");
-                        options.UseSqlServer(connectionString, s => s.MigrationsAssembly(Assembly.GetCallingAssembly().FullName));
+                        options.UseSqlServer(connectionString, s => s.MigrationsAssembly("Migrations"));
                         break;
                     case "INMEMORY":
                         var databaseName = databaseSection.GetValue<string>("Name") ??
