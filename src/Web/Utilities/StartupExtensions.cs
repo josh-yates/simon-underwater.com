@@ -1,6 +1,8 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Data.Context;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +28,7 @@ namespace Web.Utilities
                     case "SQLSERVER":
                         var connectionString = databaseSection.GetValue<string>("ConnectionString") ??
                             throw new InvalidDataException("Database connection string not found");
-                        options.UseSqlServer(connectionString);
+                        options.UseSqlServer(connectionString, s => s.MigrationsAssembly(Assembly.GetCallingAssembly().FullName));
                         break;
                     case "INMEMORY":
                         var databaseName = databaseSection.GetValue<string>("Name") ??
@@ -37,6 +39,20 @@ namespace Web.Utilities
                         throw new InvalidDataException("Database type not recognised");
                 }
             });
+        }
+
+        public static void MigrateDatabase(this IApplicationBuilder app)
+        {
+            using (var scope = app
+                .ApplicationServices
+                .GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                using (var context = scope.ServiceProvider.GetService<AppDbContext>())
+                {
+                    // TODO see if this can be async
+                    context.Database.Migrate();
+                }
+            }
         }
     }
 }
