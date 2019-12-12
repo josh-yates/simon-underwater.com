@@ -1,26 +1,41 @@
-using System.Collections.Generic;
+using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Data.Context;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Auth
 {
-    public class UserStore : IUserStore<User>, IUserPasswordStore<User>, IUserRoleStore<User>, IUserEmailStore<User>
+    public class UserStore : IUserStore<User>, IUserEmailStore<User>, IUserPasswordStore<User>
     {
-        public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+        private AppDbContext _context;
+        public UserStore(AppDbContext context)
         {
-            throw new System.NotImplementedException();
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Add(user);
+            return await ResultFromSave(cancellationToken);
         }
 
-        public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public async Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Remove(user);
+            return await ResultFromSave(cancellationToken);
+        }
+
+        public async Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        {
+            if (!int.TryParse(userId, out var parsedId)) {
+                throw new ArgumentException("User id must be integer.");
+            }
+
+            return await _context.Users.FindAsync(parsedId);
         }
 
         public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
@@ -54,82 +69,6 @@ namespace Web.Auth
         }
 
         public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        #region IDisposable Support
-        private bool disposedValue = false; // To detect redundant calls
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // TODO: dispose managed state (managed objects).
-                }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
-                // TODO: set large fields to null.
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
-        // ~UserStore()
-        // {
-        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-        //   Dispose(false);
-        // }
-
-        // This code added to correctly implement the disposable pattern.
-        public void Dispose()
-        {
-            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-            Dispose(true);
-            // TODO: uncomment the following line if the finalizer is overridden above.
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
-
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
         {
             throw new System.NotImplementedException();
         }
@@ -169,5 +108,52 @@ namespace Web.Auth
             throw new System.NotImplementedException();
         }
 
+        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private async Task<IdentityResult> ResultFromSave(CancellationToken cancellationToken, int expectedAffectedRows = 1)
+        {
+            var result = await _context.SaveChangesAsync(cancellationToken);
+            return result == expectedAffectedRows ? IdentityResult.Success : IdentityResult.Failed();
+        }
+
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    this._context.Dispose();
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
     }
 }
