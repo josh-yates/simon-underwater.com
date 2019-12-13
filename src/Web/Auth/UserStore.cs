@@ -12,6 +12,10 @@ namespace Web.Auth
     public class UserStore : IUserStore<User>, IUserEmailStore<User>, IUserPasswordStore<User>
     {
         private AppDbContext _context;
+
+        private string _usernamesNotSupported = "User model does not support usernames";
+        private string _emailConfirmationNotSupported = "User model does not support email confirmation";
+
         public UserStore(AppDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -40,93 +44,111 @@ namespace Web.Auth
 
         public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_usernamesNotSupported);
         }
 
         public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_usernamesNotSupported);
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.Id.ToString());
         }
 
         public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_usernamesNotSupported);
         }
 
         public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_usernamesNotSupported);
         }
 
         public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_usernamesNotSupported);
         }
 
-        public Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Attach(user);
+            _context.Users.Update(user);
+
+            return await ResultFromSave(cancellationToken);
         }
 
-        public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        public async Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return await _context.Users.Where(u => u.EmailAddress == normalizedEmail).FirstOrDefaultAsync();
         }
 
         public Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.EmailAddress);
         }
 
         public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_emailConfirmationNotSupported);
         }
 
         public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.EmailAddress);
         }
 
         public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            user.EmailAddress = email;
+
+            return Task.CompletedTask;
         }
 
         public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            throw new NotSupportedException(_emailConfirmationNotSupported);
         }
 
         public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            user.EmailAddress = normalizedEmail;
+
+            return Task.CompletedTask;
         }
 
         public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.PasswordHash);
         }
 
         public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            return Task.FromResult(user.PasswordHash != null && user.PasswordHash.Length > 0);
         }
 
         public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            user.PasswordHash = passwordHash;
+
+            return Task.CompletedTask;
         }
 
         private async Task<IdentityResult> ResultFromSave(CancellationToken cancellationToken, int expectedAffectedRows = 1)
         {
-            var result = await _context.SaveChangesAsync(cancellationToken);
-            return result == expectedAffectedRows ? IdentityResult.Success : IdentityResult.Failed();
+            var affectedCount = 0;
+            try 
+            {
+                affectedCount = await _context.SaveChangesAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return IdentityResult.Failed();
+            }
+
+            return affectedCount == expectedAffectedRows ? IdentityResult.Success : IdentityResult.Failed();
         }
 
         private bool disposedValue = false; // To detect redundant calls
