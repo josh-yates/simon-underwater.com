@@ -1,10 +1,13 @@
 using Data.Context;
+using Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Web.Auth;
 using Web.Utilities;
 
 namespace Web
@@ -32,6 +35,19 @@ namespace Web
         {
             services.AddControllersWithViews();
             services.AddAppDbContext(Configuration.GetSection("Database"));
+
+            services.AddIdentityCore<User>(options => 
+            {
+                options.User.RequireUniqueEmail = true;
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+            })
+            .AddUserStore<UserStore>()
+            .AddDefaultTokenProviders()
+            .AddSignInManager<SignInManager<User>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

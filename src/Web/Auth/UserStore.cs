@@ -11,10 +11,10 @@ namespace Web.Auth
 {
     public class UserStore : IUserStore<User>, IUserEmailStore<User>, IUserPasswordStore<User>
     {
-        private AppDbContext _context;
+        private readonly AppDbContext _context;
 
-        private string _usernamesNotSupported = "User model does not support usernames";
-        private string _emailConfirmationNotSupported = "User model does not support email confirmation";
+        private readonly string _usernamesNotSupported = "User model does not support usernames";
+        private readonly string _emailConfirmationNotSupported = "User model does not support email confirmation";
 
         public UserStore(AppDbContext context)
         {
