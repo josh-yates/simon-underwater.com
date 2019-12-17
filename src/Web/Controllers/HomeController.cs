@@ -26,6 +26,12 @@ namespace Web.Controllers
             return View();
         }
 
+        [HttpGet("LogIn")]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
         [HttpGet("Error")]
         public IActionResult Error()
         {
