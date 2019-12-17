@@ -13,7 +13,6 @@ namespace Web.Auth
     {
         private readonly AppDbContext _context;
 
-        private readonly string _usernamesNotSupported = "User model does not support usernames";
         private readonly string _emailConfirmationNotSupported = "User model does not support email confirmation";
 
         public UserStore(AppDbContext context)
@@ -42,14 +41,14 @@ namespace Web.Auth
             return await _context.Users.FindAsync(parsedId);
         }
 
-        public Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
         {
-            throw new NotSupportedException(_usernamesNotSupported);
+            return await FindByEmailAsync(normalizedUserName, cancellationToken);
         }
 
-        public Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotSupportedException(_usernamesNotSupported);
+            return await GetNormalizedEmailAsync(user, cancellationToken);
         }
 
         public Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
@@ -57,19 +56,19 @@ namespace Web.Auth
             return Task.FromResult(user.Id.ToString());
         }
 
-        public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotSupportedException(_usernamesNotSupported);
+            return await GetEmailAsync(user, cancellationToken);
         }
 
-        public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
+        public async Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
         {
-            throw new NotSupportedException(_usernamesNotSupported);
+            await SetNormalizedEmailAsync(user, normalizedName, cancellationToken);
         }
 
-        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        public async Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
         {
-            throw new NotSupportedException(_usernamesNotSupported);
+            await SetEmailAsync(user, userName, cancellationToken);
         }
 
         public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
