@@ -44,12 +44,14 @@ namespace Web
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
+                
             })
+            .AddDefaultTokenProviders()
             .AddUserStore<UserStore>()
             .AddSignInManager<SignInManager<User>>();
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+            services.AddAuthentication(IdentityConstants.ApplicationScheme)
+            .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
                 options.LoginPath = "/Login";
                 options.AccessDeniedPath = "/Error";
@@ -60,7 +62,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.MigrateDatabase();
+            // app.MigrateDatabase();
             
             if (env.IsDevelopment())
             {
