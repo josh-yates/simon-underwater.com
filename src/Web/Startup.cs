@@ -49,6 +49,8 @@ namespace Web
             .AddUserStore<UserStore>()
             .AddSignInManager<SignInManager<User>>();
 
+            services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
+
             services.AddAuthentication(IdentityConstants.ApplicationScheme)
             .AddCookie(IdentityConstants.ApplicationScheme, options =>
             {
