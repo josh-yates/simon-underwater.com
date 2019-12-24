@@ -28,6 +28,16 @@ namespace Web.Pages
         public string Password { get; set; }
         [BindProperty]
         public bool RememberMe { get; set; }
+
+        public IActionResult OnGet()
+        {
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                return RedirectToPage("Index");
+            }
+
+            return Page();
+        }
         
         public async Task<IActionResult> OnPostAsync()
         {

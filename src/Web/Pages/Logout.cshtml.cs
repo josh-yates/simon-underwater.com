@@ -18,11 +18,21 @@ namespace Web.Pages
             _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
         }
 
-        public async Task<IActionResult> OnGetAsync()
+        public IActionResult OnGet()
+        {
+            if (_signInManager.IsSignedIn(HttpContext.User))
+            {
+                return RedirectToPage("Index");
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
         {
             await HttpContext.SignOutAsync();
 
-            return Page();
+            return RedirectToPage();
         }
     }
 }

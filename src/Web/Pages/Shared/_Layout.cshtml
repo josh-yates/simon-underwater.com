@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,7 +9,14 @@
     <title>@ViewData["Title"] - Web</title>
 </head>
 <body>
-    <header></header>
+    <header>
+        @if (signInManager.IsSignedIn(Context.User))
+        {
+            <form action="/logout" method="POST">
+                <button type="submit">Sign out</button>
+            </form>
+        }
+    </header>
     <main>
         @RenderBody()
     </main>
