@@ -1,8 +1,13 @@
 @page
 @model LoginModel
-<h1>Login page!</h1>
+
+@{
+    Model.TabTitle = Model.PageTitle = "Log in";
+}
 <form asp-page="login" method="POST" asp-route-returnurl="@Request.Query["returnurl"]">
+    <label asp-for="@Model.EmailAddress">Email</label>
     <input asp-for="@Model.EmailAddress" type="text" />
+    <label asp-for="@Model.Password">Password</label>
     <input asp-for="@Model.Password" type="password" />
     <button type="submit">Go</button>
 </form>

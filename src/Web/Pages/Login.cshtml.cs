@@ -51,7 +51,7 @@ namespace Web.Pages
 
             if (result.Succeeded)
             {
-                return returnUrl != null ? LocalRedirect(returnUrl) : RedirectToHome();
+                return TryLocalRedirect(returnUrl);
             }
 
             return Page();

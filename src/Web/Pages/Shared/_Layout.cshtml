@@ -1,27 +1,26 @@
-﻿@using Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> signInManager
+﻿@model BasePageModel
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web</title>
+    <title>
+        @if(!string.IsNullOrEmpty(Model.TabTitle))
+        {
+            <text>@Model.TabTitle - </text>
+        }
+        Simon Yates
+    </title>
 </head>
 <body>
     <header>
-        @if (signInManager.IsSignedIn(Context.User))
-        {
-            <form asp-page-handler="logout" method="POST">
-                <button type="submit">Log out</button>
-            </form>
-        }
-        else
-        {
-            <a href="login">Log in</a>
-        }
+        <partial name="_Nav"></partial>
     </header>
     <main>
+        @if(!string.IsNullOrEmpty(Model.PageTitle))
+        {
+            <h1>@Model.PageTitle</h1>
+        }
         @RenderBody()
     </main>
     @if (IsSectionDefined("LeftPanel"))
@@ -30,6 +29,5 @@
             @RenderSection("LeftPanel", required: false)
         </aside>
     }
-    <footer></footer>
 </body>
 </html>

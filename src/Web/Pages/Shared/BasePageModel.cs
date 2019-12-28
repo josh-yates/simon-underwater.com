@@ -7,6 +7,8 @@ namespace Web.Pages.Shared
 {
     public class BasePageModel : PageModel
     {
+        public string TabTitle { get; set; }
+        public string PageTitle { get; set; }
         public async Task<IActionResult> OnPostLogout()
         {
             await HttpContext.SignOutAsync();
@@ -16,7 +18,17 @@ namespace Web.Pages.Shared
 
         protected IActionResult RedirectToHome()
         {
-            return LocalRedirect("~/index");
+            return LocalRedirect("~/");
+        }
+
+        protected IActionResult TryLocalRedirect(string redirectUrl)
+        {
+            if (redirectUrl == null || !Url.IsLocalUrl(redirectUrl))
+            {
+                return RedirectToHome();
+            }
+
+            return LocalRedirect(redirectUrl);
         }
     }
 }
