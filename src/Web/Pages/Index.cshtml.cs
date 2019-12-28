@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Pages.Shared;
 
 namespace Web.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
         public void OnGet() {}
     }

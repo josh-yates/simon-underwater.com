@@ -12,9 +12,13 @@
     <header>
         @if (signInManager.IsSignedIn(Context.User))
         {
-            <form action="/logout" method="POST">
-                <button type="submit">Sign out</button>
+            <form asp-page-handler="logout" method="POST">
+                <button type="submit">Log out</button>
             </form>
+        }
+        else
+        {
+            <a href="login">Log in</a>
         }
     </header>
     <main>

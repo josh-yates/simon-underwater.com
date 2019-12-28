@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Web.Auth;
+using Web.Pages.Shared;
 
 namespace Web.Pages.Admin
 {
-    public class IndexModel : PageModel
+    public class IndexModel : BasePageModel
     {
         public string DisplayName { get; set; }
         public string EmailAddress { get; set; }

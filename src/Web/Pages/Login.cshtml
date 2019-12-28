@@ -1,7 +1,7 @@
 @page
 @model LoginModel
 <h1>Login page!</h1>
-<form asp-page="login" method="POST">
+<form asp-page="login" method="POST" asp-route-returnurl="@Request.Query["returnurl"]">
     <input asp-for="@Model.EmailAddress" type="text" />
     <input asp-for="@Model.Password" type="password" />
     <button type="submit">Go</button>

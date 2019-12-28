@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 using Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Web.Pages.Shared;
 
 namespace Web.Pages
 {
-    public class LoginModel : PageModel
+    public class LoginModel : BasePageModel
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
@@ -33,13 +33,13 @@ namespace Web.Pages
         {
             if (_signInManager.IsSignedIn(HttpContext.User))
             {
-                return RedirectToPage("Index");
+                return RedirectToHome();
             }
 
             return Page();
         }
         
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             // TODO rework this
             var user = await _userManager.FindByEmailAsync(EmailAddress);
@@ -51,7 +51,7 @@ namespace Web.Pages
 
             if (result.Succeeded)
             {
-                return RedirectToPage("Index");
+                return returnUrl != null ? LocalRedirect(returnUrl) : RedirectToHome();
             }
 
             return Page();
