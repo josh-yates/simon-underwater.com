@@ -63,7 +63,11 @@ namespace Web
             services.AddRazorPages()
             .AddRazorPagesOptions(options =>
             {
-                options.Conventions.AuthorizeFolder("/Admin");
+                options.Conventions.AuthorizeFolder("/dashboard");
+                options.Conventions.AuthorizePage("/photos/upload");
+                options.Conventions.AuthorizePage("/albums/add");
+                options.Conventions.AuthorizePage("/contact/requests");
+                options.Conventions.AuthorizePage("/about/edit");
             });
         }
 

@@ -1,0 +1,58 @@
+@using Data.Models
+@using Web.Auth
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+<nav>
+    <a href="/">Home</a>
+</nav>
+@if (signInManager.IsSignedIn(Context.User))
+{
+    <text>Hi, @User.FindFirst(Constants.FirstNameClaim).Value</text>
+    <nav>
+        Quick actions
+        <ul>
+            <li>
+                <a href="dashboard">Site dashboard</a>
+            </li>
+            <li>
+                <a href="photos/upload">Upload photos</a>
+            </li>
+            <li>
+                <a href="albums/add">Add an album</a>
+            </li>
+            <li>
+                <a href="contact/requests">See contact requests</a>
+            </li>
+            <li>
+                <a href="about/edit">Edit your info</a>
+            </li>
+        </ul>
+    </nav>
+}
+else
+{
+    <nav>
+        <a href="login">Log in</a>
+    </nav>
+}
+<nav>
+    <ul>
+        <li>
+            Gallery
+            <ul>
+                <li>
+                    <a href="photos">Photos</a>
+                </li>
+                <li>
+                    <a href="albums">Albums</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="about">About</a>
+        </li>
+        <li>
+            <a href="contact">Contact</a>
+        </li>
+    </ul>
+</nav>
