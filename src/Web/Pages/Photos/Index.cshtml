@@ -1,6 +1,15 @@
-@page
+@page "{id?}"
 @model IndexModel
 
 @{
     Model.TabTitle = Model.PageTitle = "Photos";
+}
+
+@if(Model.IndividualPhoto)
+{
+    <text>You are looking at photo @Model.Id</text>
+}
+else
+{
+    <text>You are looking at all photos</text>
 }
