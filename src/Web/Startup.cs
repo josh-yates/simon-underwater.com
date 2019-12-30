@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Auth;
+using Web.Services;
 using Web.Utilities;
 
 namespace Web
@@ -69,6 +70,8 @@ namespace Web
                 options.Conventions.AuthorizePage("/contact/requests");
                 options.Conventions.AuthorizePage("/about/edit");
             });
+
+            services.AddSingleton<ImageService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,6 +100,7 @@ namespace Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }

@@ -7,9 +7,9 @@
 
 @if(Model.IndividualPhoto)
 {
-    <text>You are looking at photo @Model.Id</text>
+    <partial name="_Photo" model="Model.Id" />
 }
 else
 {
-    <text>You are looking at all photos</text>
+    <partial name="_PhotosListing" />
 }
