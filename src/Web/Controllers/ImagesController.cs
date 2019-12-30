@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
@@ -23,18 +24,49 @@ namespace Web.Controllers
         }
 
         [HttpGet("/images/{filename}")]
-        public async Task<IActionResult> Get(string filename)
+        public async Task<IActionResult> GetImage(string filename)
         {
-            var image = await _context
+            var image = await FindImageByOnDiskName(filename);
+            
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            _imageService.GenerateWebVersionForImage(image);
+
+            var contentType = GetContentType(filename);
+
+            return File(_imageService.GetWebVersionForImage(image), contentType);
+        }
+
+        [HttpGet("/images/thumbnails/{filename}")]
+        public async Task<IActionResult> GetThumbnail(string filename)
+        {
+            var image = await FindImageByOnDiskName(filename);
+            
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            _imageService.GenerateWebVersionForImage(image, true);
+
+            var contentType = GetContentType(filename);
+
+            return File(_imageService.GetWebVersionForImage(image, true), contentType);
+        }
+
+        private async Task<Image> FindImageByOnDiskName(string filename)
+        {
+            return await _context
                 .Images
                 .Where(i => !i.IsDeleted && i.OnDiskName == filename)
                 .FirstOrDefaultAsync();
-            
-            // if (image == null)
-            // {
-            //     return NotFound();
-            // }
+        }
 
+        private string GetContentType(string filename)
+        {
             string contentType;
 
             if (!new FileExtensionContentTypeProvider().TryGetContentType(filename, out contentType))
@@ -42,7 +74,7 @@ namespace Web.Controllers
                 contentType = "application/octet-stream";
             }
 
-            return File(await _imageService.GenerateFileForImage(image), contentType);
+            return contentType;
         }
     }
 }

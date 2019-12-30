@@ -71,6 +71,7 @@ namespace Web
                 options.Conventions.AuthorizePage("/about/edit");
             });
 
+            services.Configure<ImageOptions>(Configuration.GetSection("Images"));
             services.AddSingleton<ImageService>();
         }
 
