@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Web.Utilities
 {
     public class ImageOptions
@@ -7,5 +9,6 @@ namespace Web.Utilities
         public string ThumbnailsBaseDirectory { get; set; }
         public double WebImageResizeFactor { get; set; }
         public double ThumbnailResizeFactor { get; set; }
+        public ICollection<string> PermittedExtensions { get; set; }
     }
 }

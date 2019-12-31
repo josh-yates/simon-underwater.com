@@ -8,6 +8,8 @@ using Microsoft.Extensions.Options;
 using Web.Utilities;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 
 namespace Web.Services
 {
@@ -34,6 +36,7 @@ namespace Web.Services
                 var resizeFactor = isThumbnail ? _imageOptions.ThumbnailResizeFactor : _imageOptions.WebImageResizeFactor;
                 inputImage.Mutate(i => 
                     i.Resize(Convert.ToInt32(inputImage.Width * resizeFactor), Convert.ToInt32(inputImage.Height * resizeFactor))
+                     .AutoOrient()
                 );
                 inputImage.Save(outputPath);
             }
@@ -64,6 +67,44 @@ namespace Web.Services
             }
 
             return url;
+        }
+
+        public List<string> ValidateImageUpload(IFormFile upload)
+        {
+            var errorMessages = new List<string>();
+            var extension = Path.GetExtension(upload.FileName).ToLower();
+
+            if (!_imageOptions.PermittedExtensions.Contains(extension))
+            {
+                errorMessages.Add($"File extension {extension} is not permitted for photo uploads.");
+            }
+
+            return errorMessages;
+        }
+
+        public async Task<Data.Models.Image> SaveImageUploadAsync(IFormFile upload, User author)
+        {
+            var extension = Path.GetExtension(upload.FileName).ToLower();
+            var image = new Data.Models.Image
+            {
+                OnDiskName = Guid.NewGuid().ToString() + extension,
+                OriginalName = upload.FileName,
+                User = author,
+                UploadedAt = DateTimeOffset.Now
+            };
+
+            var stream = upload.OpenReadStream();
+            var timestampString = (string)SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).Value;
+            if (DateTimeOffset.TryParse(timestampString, out var parsedTimestamp))
+            {
+                image.TakenAt = parsedTimestamp;
+            }
+
+            var savePath = Path.Combine(_env.ContentRootPath, image.OnDiskName);
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+                await upload.CopyToAsync(fileStream);
+            }
         }
     }
 }
