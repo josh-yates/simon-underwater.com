@@ -103,8 +103,11 @@ namespace Web.Services
             var savePath = Path.Combine(_env.ContentRootPath, image.OnDiskName);
             using (var fileStream = new FileStream(savePath, FileMode.Create))
             {
-                await upload.CopyToAsync(fileStream);
+                stream.Seek(0, SeekOrigin.Begin);
+                await stream.CopyToAsync(fileStream);
             }
+
+            return image;
         }
     }
 }
