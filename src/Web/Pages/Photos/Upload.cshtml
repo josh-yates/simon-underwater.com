@@ -3,3 +3,16 @@
 @{
     Model.PageTitle = Model.TabTitle = "Upload photos";
 }
+@if(Model.Files != null && Model.Files.Count > 0)
+{
+    <ul>
+        @foreach (var file in Model.Files)
+        {
+            <li>@file.FileName - @file.Length</li>
+        }
+    </ul>
+}
+<form asp-page="/photos/upload" method="POST" enctype="multipart/form-data">
+    <input type="file" multiple asp-for="Files"/>
+    <button type="submit">Submit</button>
+</form>
