@@ -94,11 +94,13 @@ namespace Web.Services
             };
 
             var stream = upload.OpenReadStream();
-            var timestampString = (string)SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).Value;
-            if (DateTimeOffset.TryParse(timestampString, out var parsedTimestamp))
-            {
-                image.TakenAt = parsedTimestamp;
-            }
+            // var timestampString = (string)SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).Value;
+            // if (DateTimeOffset.TryParse(timestampString, out var parsedTimestamp))
+            // {
+            //     image.TakenAt = parsedTimestamp;
+            // }
+
+            // TODO make sure this points at uploads
 
             var savePath = Path.Combine(_env.ContentRootPath, image.OnDiskName);
             using (var fileStream = new FileStream(savePath, FileMode.Create))

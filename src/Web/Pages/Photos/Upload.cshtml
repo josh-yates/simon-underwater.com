@@ -3,12 +3,23 @@
 @{
     Model.PageTitle = Model.TabTitle = "Upload photos";
 }
-@if(Model.Files != null && Model.Files.Count > 0)
+@if(Model.ErrorMessages != null && Model.ErrorMessages.Any())
 {
+    <h3>Errors</h3>
     <ul>
-        @foreach (var file in Model.Files)
+        @foreach (var message in Model.ErrorMessages)
         {
-            <li>@file.FileName - @file.Length</li>
+            <li>@message</li>
+        }
+    </ul>
+}
+@if(Model.SuccessMessages != null && Model.SuccessMessages.Any())
+{
+    <h3>Successes</h3>
+    <ul>
+        @foreach (var message in Model.SuccessMessages)
+        {
+            <li>@message</li>
         }
     </ul>
 }
