@@ -32,5 +32,8 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 
+# Runtime file paths
+[Uu]ploads/
+**/wwwroot/[Ii]mages
 # Visual Studio 2015
 .vs/

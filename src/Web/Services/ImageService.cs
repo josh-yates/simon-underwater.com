@@ -31,6 +31,8 @@ namespace Web.Services
             var outputBaseDirectory = isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory;
             var outputPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(outputBaseDirectory, image.OnDiskName)).PhysicalPath;
 
+            Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+
             using (var inputImage = SixLabors.ImageSharp.Image.Load(inputPath))
             {
                 var resizeFactor = isThumbnail ? _imageOptions.ThumbnailResizeFactor : _imageOptions.WebImageResizeFactor;
@@ -102,7 +104,10 @@ namespace Web.Services
 
             // TODO make sure this points at uploads
 
-            var savePath = Path.Combine(_env.ContentRootPath, image.OnDiskName);
+            var savePath = Path.Combine(_env.ContentRootPath, _imageOptions.UploadsBaseDirectory, image.OnDiskName);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
+
             using (var fileStream = new FileStream(savePath, FileMode.Create))
             {
                 stream.Seek(0, SeekOrigin.Begin);
