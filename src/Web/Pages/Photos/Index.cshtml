@@ -5,9 +5,9 @@
     Model.TabTitle = Model.PageTitle = "Photos";
 }
 
-@if(Model.IndividualPhoto)
+@if(Model.IndividualPhoto != null)
 {
-    <partial name="_Photo" model="Model.Id" />
+    <partial name="_Photo" model="Model.IndividualPhoto" />
 }
 else
 {
