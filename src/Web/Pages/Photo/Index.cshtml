@@ -1,0 +1,8 @@
+@page "{id:int}"
+@model IndexModel
+
+@{
+    Model.TabTitle = Model.PageTitle = "Photo";
+}
+
+<img src="@Model.ImageUrl" />

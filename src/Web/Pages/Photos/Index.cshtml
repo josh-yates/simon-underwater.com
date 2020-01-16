@@ -1,15 +1,6 @@
-@page "{id?}"
+@page
 @model IndexModel
 
 @{
     Model.TabTitle = Model.PageTitle = "Photos";
-}
-
-@if(Model.IndividualPhoto != null)
-{
-    <partial name="_Photo" model="Model.IndividualPhoto" />
-}
-else
-{
-    <partial name="_PhotosListing" />
 }

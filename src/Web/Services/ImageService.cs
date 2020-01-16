@@ -59,16 +59,9 @@ namespace Web.Services
             return File.OpenRead(path);
         }
 
-        public string GetWebVersionUrl(Data.Models.Image image, bool isThumbnail = false)
+        public string GetImageUrl(Data.Models.Image image, bool isThumbnail = false)
         {
-            var url = Path.Combine(isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory, image.OnDiskName);
-
-            if (!url.StartsWith("/"))
-            {
-                return "/" + url;
-            }
-
-            return url;
+            return Url.Combine(isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory, image.OnDiskName);
         }
 
         public List<string> ValidateImageUpload(IFormFile upload)
