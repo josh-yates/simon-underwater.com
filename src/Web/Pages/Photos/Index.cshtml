@@ -4,3 +4,8 @@
 @{
     Model.TabTitle = Model.PageTitle = "Photos";
 }
+
+@foreach(var image in Model.Images)
+{
+    <img src="@Model._imageService.GetImageUrl(image, true)" />
+}
