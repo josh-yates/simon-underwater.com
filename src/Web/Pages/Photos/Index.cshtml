@@ -7,5 +7,16 @@
 
 @foreach(var image in Model.Images)
 {
-    <img src="@Model._imageService.GetImageUrl(image, true)" />
+    <a asp-page="/photo/index" asp-route-id="@image.Id">
+        <img src="@Model._imageService.GetImageUrl(image, true)" />
+    </a>
+}
+@if(Model.Images.HasPreviousPage)
+{
+    <a asp-route-p="@(Model.Images.PageIndex - 1)">Previous</a>
+}
+<p>Page @Model.Images.PageIndex of @Model.Images.TotalPages</p>
+@if(Model.Images.HasNextPage)
+{
+    <a asp-route-p="@(Model.Images.PageIndex + 1)">Next</a>
 }

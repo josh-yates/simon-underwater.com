@@ -60,6 +60,12 @@ namespace Web
                 options.SlidingExpiration = true;
             });
 
+            services.AddRouting(options =>
+            {
+                options.LowercaseQueryStrings = true;
+                options.LowercaseUrls = true;
+            });
+
             services.AddMvc();
             services.AddRazorPages()
             .AddRazorPagesOptions(options =>
