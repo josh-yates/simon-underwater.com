@@ -28,10 +28,13 @@ else
     <p>There are no photos to show :(</p>
 }
 
+<h5>@Model.M</h5>
+
 @section LeftPanel
 {
     <form asp-page="/photos" method="GET">
         <input type="search" asp-for="S"/>
+        <input type="month" asp-for="M"/>
         <a href="/photos">Clear</a>
         <button type="submit">Search</button>
     </form>

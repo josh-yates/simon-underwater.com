@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
@@ -29,7 +30,14 @@ namespace Web.Pages.Photos
         public int P { get; set; } = 1;
 
         [BindProperty(SupportsGet = true)]
-        public string S { get; set; } 
+        public string S { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public DateTime M { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int Y { get; set; }
+        public ICollection<int> Years { get; set; }
 
         public PaginatedResult<Image> Images { get; set; }
         public async Task<IActionResult> OnGetAsync()
@@ -46,6 +54,15 @@ namespace Web.Pages.Photos
 
                 query = query
                     .Where(i => i.Description.Contains(searchString));
+            }
+
+            if (M != default(DateTime))
+            {
+                var start = new DateTime(M.Year, M.Month, 1);
+                var end = start.AddMonths(1);
+
+                query = query
+                    .Where(i => i.TakenAt >= start && i.TakenAt < end);
             }
 
             Images = await query
