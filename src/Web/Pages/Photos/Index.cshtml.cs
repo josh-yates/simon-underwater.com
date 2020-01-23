@@ -27,14 +27,28 @@ namespace Web.Pages.Photos
 
         [BindProperty(SupportsGet = true)]
         public int P { get; set; } = 1;
+
+        [BindProperty(SupportsGet = true)]
+        public string S { get; set; } 
+
         public PaginatedResult<Image> Images { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
             var index = P > 0 ? P : 1;
 
-            Images = await _dbContext
+            var query = _dbContext
                 .Images
-                .Where(i => !i.IsDeleted)
+                .Where(i => !i.IsDeleted);
+            
+            if (!string.IsNullOrWhiteSpace(S))
+            {
+                var searchString = S.Trim().ToLower();
+
+                query = query
+                    .Where(i => i.Description.Contains(searchString));
+            }
+
+            Images = await query
                 .ToPaginatedResultAsync(index, 10);
             
             if (Images.Count <= 0 && index > 1 && index > Images.TotalPages)

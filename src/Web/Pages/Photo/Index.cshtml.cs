@@ -24,6 +24,8 @@ namespace Web.Pages.Photo
 
         public string ImageUrl { get; set; }
 
+        public string Description { get; set; }
+
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var image = await _dbContext.Images
@@ -36,6 +38,7 @@ namespace Web.Pages.Photo
             }
 
             ImageUrl = _imageService.GetImageUrl(image);
+            Description = image.Description;
 
             return Page();
         }

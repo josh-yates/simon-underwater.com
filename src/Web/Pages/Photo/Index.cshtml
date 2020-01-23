@@ -6,3 +6,12 @@
 }
 
 <img src="@Model.ImageUrl" />
+
+@section LeftPanel
+{
+    @if(!string.IsNullOrWhiteSpace(Model.Description))
+    {
+        <h3>Description</h3>
+        <p>@Model.Description</p>
+    }
+}
