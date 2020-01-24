@@ -35,6 +35,9 @@ else
     <form asp-page="/photos" method="GET">
         <input type="search" asp-for="S"/>
         <input type="month" asp-for="M"/>
+        <select asp-for="Y" asp-items="@(new SelectList(Model.Years))">
+            <option value="">- Year -</option>
+        </select>
         <a href="/photos">Clear</a>
         <button type="submit">Search</button>
     </form>

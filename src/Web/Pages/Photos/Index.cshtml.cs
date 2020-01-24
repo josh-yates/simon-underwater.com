@@ -42,6 +42,7 @@ namespace Web.Pages.Photos
         public PaginatedResult<Image> Images { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
+            await SetYears();
             var index = P > 0 ? P : 1;
 
             var query = _dbContext
@@ -74,6 +75,16 @@ namespace Web.Pages.Photos
             }
 
             return Page();
+        }
+
+        private async Task SetYears()
+        {
+            Years = await _dbContext
+                .Images
+                .Where(i => !i.IsDeleted)
+                .Select(i => i.TakenAt.Year)
+                .Distinct()
+                .ToListAsync();
         }
     }
 }
