@@ -94,8 +94,10 @@ namespace Web.Services
             // PNGs don't have exif data
             if (exifData != null)
             {
-                var timestampString = exifData.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).ToString();
-                image.TakenAt = DateTimeOffset.TryParse(timestampString, out var parsedTimestamp) ? parsedTimestamp : DateTimeOffset.Now;
+                var timestampData = exifData.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime);
+                image.TakenAt = timestampData != null &&
+                    DateTimeOffset.TryParse(timestampData.ToString(), out var parsedTimestamp) ?
+                    parsedTimestamp : DateTimeOffset.Now;
             }
             else
             {

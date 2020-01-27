@@ -34,17 +34,14 @@ namespace Web.Pages.Photos
         public string S { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public DateTime M { get; set; }
-        public ICollection<string> Months = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
+        public DateTime F { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public int Y { get; set; }
-        public ICollection<int> Years { get; set; }
+        public DateTime T { get; set; }
 
         public PaginatedResult<Image> Images { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
-            await SetYears();
             var index = P > 0 ? P : 1;
 
             var query = _dbContext
@@ -59,13 +56,16 @@ namespace Web.Pages.Photos
                     .Where(i => i.Description.Contains(searchString));
             }
 
-            if (M != default(DateTime))
+            if (F != default(DateTime))
             {
-                var start = new DateTime(M.Year, M.Month, 1);
-                var end = start.AddMonths(1);
-
                 query = query
-                    .Where(i => i.TakenAt >= start && i.TakenAt < end);
+                    .Where(i => i.TakenAt >= F);
+            }
+
+            if (T != default(DateTime))
+            {
+                query = query
+                    .Where(i => i.TakenAt <= T);
             }
 
             Images = await query
@@ -77,16 +77,6 @@ namespace Web.Pages.Photos
             }
 
             return Page();
-        }
-
-        private async Task SetYears()
-        {
-            Years = await _dbContext
-                .Images
-                .Where(i => !i.IsDeleted)
-                .Select(i => i.TakenAt.Year)
-                .Distinct()
-                .ToListAsync();
         }
     }
 }
