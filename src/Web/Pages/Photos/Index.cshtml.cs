@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
@@ -34,6 +35,7 @@ namespace Web.Pages.Photos
 
         [BindProperty(SupportsGet = true)]
         public DateTime M { get; set; }
+        public ICollection<string> Months = DateTimeFormatInfo.CurrentInfo.AbbreviatedMonthNames;
 
         [BindProperty(SupportsGet = true)]
         public int Y { get; set; }

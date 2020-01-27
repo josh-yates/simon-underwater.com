@@ -89,13 +89,18 @@ namespace Web.Services
             };
 
             var stream = upload.OpenReadStream();
-            // var timestampString = (string)SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).Value;
-            // if (DateTimeOffset.TryParse(timestampString, out var parsedTimestamp))
-            // {
-            //     image.TakenAt = parsedTimestamp;
-            // }
+            var exifData = SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile;
 
-            // TODO make sure this points at uploads
+            // PNGs don't have exif data
+            if (exifData != null)
+            {
+                var timestampString = exifData.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime).ToString();
+                image.TakenAt = DateTimeOffset.TryParse(timestampString, out var parsedTimestamp) ? parsedTimestamp : DateTimeOffset.Now;
+            }
+            else
+            {
+                image.TakenAt = DateTimeOffset.Now;
+            }
 
             var savePath = Path.Combine(_env.ContentRootPath, _imageOptions.UploadsBaseDirectory, image.OnDiskName);
 
