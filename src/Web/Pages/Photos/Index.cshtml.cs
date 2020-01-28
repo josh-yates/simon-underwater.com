@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
@@ -10,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Pages.Shared;
 using Web.Services;
+using Web.Utilities;
 
 namespace Web.Pages.Photos
 {
@@ -62,14 +61,14 @@ namespace Web.Pages.Photos
 
             if (F != default(DateTime))
             {
-                var startDate = F.Date;
+                var startDate = F.StartOfDay();
                 query = query
                     .Where(i => i.TakenAt >= startDate);
             }
 
             if (T != default(DateTime))
             {
-                var endDate = T.Date.AddDays(1).AddTicks(-1);
+                var endDate = T.EndOfDay();
                 query = query
                     .Where(i => i.TakenAt <= endDate);
             }
