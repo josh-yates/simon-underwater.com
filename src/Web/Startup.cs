@@ -70,11 +70,14 @@ namespace Web
             services.AddRazorPages()
             .AddRazorPagesOptions(options =>
             {
+                // TODO consider whitelisting anonymous routes
                 options.Conventions.AuthorizeFolder("/dashboard");
                 options.Conventions.AuthorizePage("/photos/upload");
                 options.Conventions.AuthorizePage("/albums/add");
                 options.Conventions.AuthorizePage("/contact/requests");
                 options.Conventions.AuthorizePage("/about/edit");
+                options.Conventions.AuthorizeFolder("/photo");
+                options.Conventions.AllowAnonymousToPage("/photo/index");
             });
 
             services.Configure<ImageOptions>(Configuration.GetSection("Images"));

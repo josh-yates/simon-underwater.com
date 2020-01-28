@@ -1,8 +1,17 @@
 @page "{id:int}"
 @model IndexModel
 
+@using Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
 @{
     Model.TabTitle = Model.PageTitle = "Photo";
+}
+
+@if (signInManager.IsSignedIn(HttpContext.User))
+{
+    <a href="/photo/@(Model.Id)/edit">Edit</a>
 }
 
 <img src="@Model.ImageUrl" />
@@ -13,5 +22,11 @@
     {
         <h3>Description</h3>
         <p>@Model.Description</p>
+    }
+    <h3>Taken at</h3>
+    <time>@Model.TakenAt.ToString("MMM dd, yy HH:mm")</time>
+    @if(signInManager.IsSignedIn(HttpContext.User))
+    {
+        <p>@Model.TakenAtSourceMessage</p>
     }
 }
