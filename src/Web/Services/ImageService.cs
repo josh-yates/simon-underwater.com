@@ -88,6 +88,9 @@ namespace Web.Services
                 UploadedAt = DateTimeOffset.Now
             };
 
+            image.TakenAt = DateTimeOffset.Now;
+            image.TakenAtSource = Data.Enums.TakenAtSourceType.CurrentTime;
+
             var stream = upload.OpenReadStream();
             var exifData = SixLabors.ImageSharp.Image.Identify(stream).Metadata.ExifProfile;
 
@@ -95,13 +98,12 @@ namespace Web.Services
             if (exifData != null)
             {
                 var timestampData = exifData.GetValue(SixLabors.ImageSharp.Metadata.Profiles.Exif.ExifTag.DateTime);
-                image.TakenAt = timestampData != null &&
-                    DateTimeOffset.TryParse(timestampData.ToString(), out var parsedTimestamp) ?
-                    parsedTimestamp : DateTimeOffset.Now;
-            }
-            else
-            {
-                image.TakenAt = DateTimeOffset.Now;
+
+                if (timestampData != null && DateTimeOffset.TryParse(timestampData.ToString(), out var parsedTimestamp))
+                {
+                    image.TakenAt = parsedTimestamp;
+                    image.TakenAtSource = Data.Enums.TakenAtSourceType.FromExif;
+                }
             }
 
             var savePath = Path.Combine(_env.ContentRootPath, _imageOptions.UploadsBaseDirectory, image.OnDiskName);

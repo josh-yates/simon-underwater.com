@@ -40,8 +40,12 @@ namespace Web.Pages.Photos
         public DateTime T { get; set; }
 
         public PaginatedResult<Image> Images { get; set; }
+        public DateTime? DatePickerMin { get; set; }
+        public DateTime? DatePickerMax { get; set; }
         public async Task<IActionResult> OnGetAsync()
         {
+            await SetFormData();
+            
             var index = P > 0 ? P : 1;
 
             var query = _dbContext
@@ -58,14 +62,16 @@ namespace Web.Pages.Photos
 
             if (F != default(DateTime))
             {
+                var startDate = F.Date;
                 query = query
-                    .Where(i => i.TakenAt >= F);
+                    .Where(i => i.TakenAt >= startDate);
             }
 
             if (T != default(DateTime))
             {
+                var endDate = T.Date.AddDays(1).AddTicks(-1);
                 query = query
-                    .Where(i => i.TakenAt <= T);
+                    .Where(i => i.TakenAt <= endDate);
             }
 
             Images = await query
@@ -77,6 +83,27 @@ namespace Web.Pages.Photos
             }
 
             return Page();
+        }
+
+        private async Task SetFormData()
+        {
+            var query = _dbContext
+                .Images
+                .Where(i => !i.IsDeleted)
+                .OrderBy(i => i.TakenAt)
+                .Select(i => i.TakenAt);
+
+            var min = await query.FirstOrDefaultAsync(); 
+            if (min != default(DateTimeOffset))
+            {
+                DatePickerMin = min.DateTime;
+            }
+
+            var max = await query.LastOrDefaultAsync();
+            if (max != default(DateTimeOffset))
+            {
+                DatePickerMax = max.DateTime;
+            }
         }
     }
 }
