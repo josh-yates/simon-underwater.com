@@ -25,8 +25,4 @@
     }
     <h3>Taken at</h3>
     <time>@Model.TakenAt.ToString("MMM dd, yy HH:mm")</time>
-    @if(signInManager.IsSignedIn(HttpContext.User))
-    {
-        <p>@Model.TakenAtSourceMessage</p>
-    }
 }

@@ -13,5 +13,27 @@ namespace Web.Utilities
         {
             return dateTime.Date.AddDays(1).AddTicks(-1);
         }
+
+        public static DateTime Trim(this DateTime dt, DateTimeComponent component)
+        {
+            switch (component)
+            {
+                case DateTimeComponent.Second:
+                    return new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 0, dt.Kind);
+                default:
+                    throw new NotSupportedException();
+            }
+        }
+
+        public enum DateTimeComponent
+        {
+            MilliSecond = 0,
+            Second,
+            Minute,
+            Hour,
+            Day,
+            Month,
+            Year
+        }
     }
 }

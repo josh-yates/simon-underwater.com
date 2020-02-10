@@ -31,8 +31,6 @@ namespace Web.Pages.Photo
 
         public int Id { get; set; }
 
-        public string TakenAtSourceMessage { get; set; }
-
         public async Task<IActionResult> OnGetAsync(int id)
         {
             var image = await _dbContext.Images
@@ -48,21 +46,6 @@ namespace Web.Pages.Photo
             Description = image.Description;
             Id = image.Id;
             TakenAt = image.TakenAt;
-
-            switch (image.TakenAtSource)
-            {
-                case (TakenAtSourceType.CurrentTime):
-                    TakenAtSourceMessage = "The system was not able to determine when this image has taken, so has defaulted to the time it was uploaded.";
-                    break;
-                case (TakenAtSourceType.FromExif):
-                    TakenAtSourceMessage = "The system was able to read when this image was taken.";
-                    break;
-                case (TakenAtSourceType.Manual):
-                    TakenAtSourceMessage = "The date and time this image was taken has been manually set.";
-                    break;
-                default:
-                    break;
-            }
 
             return Page();
         }
