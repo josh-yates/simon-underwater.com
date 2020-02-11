@@ -59,6 +59,15 @@ namespace Web.Services
             return File.OpenRead(path);
         }
 
+        public void RemoveGeneratedImages(Data.Models.Image image)
+        {
+            var webVersionPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.WebImagesBaseDirectory, image.OnDiskName)).PhysicalPath;
+            var thumbnailPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.ThumbnailsBaseDirectory, image.OnDiskName)).PhysicalPath;
+
+            File.Delete(webVersionPath);
+            File.Delete(thumbnailPath);
+        }
+
         public string GetImageUrl(Data.Models.Image image, bool isThumbnail = false)
         {
             return Url.Combine(isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory, image.OnDiskName);

@@ -101,5 +101,24 @@ namespace Web.Pages.Photo
 
             return RedirectToPage("./index", new { id = id });
         }
+
+        public async Task<IActionResult> OnPostDelete(int id)
+        {
+            var image = await _dbContext.Images
+                .Where(i => !i.IsDeleted && i.Id == id)
+                .FirstOrDefaultAsync();
+            
+            if (image == null)
+            {
+                return NotFound();
+            }
+
+            image.IsDeleted = true;
+
+            await _dbContext.SaveChangesAsync();
+            _imageService.RemoveGeneratedImages(image);
+
+            return RedirectToPage("../Photos/Index");
+        }
     }
 }
