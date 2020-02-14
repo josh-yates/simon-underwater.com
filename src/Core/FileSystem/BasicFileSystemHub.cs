@@ -6,14 +6,20 @@ namespace Core.FileSystem
     public class BasicFileSystemHub : IFileSystemHub
     {
         private readonly Dictionary<string, IFileSystem> _fileSystems;
+
+        public BasicFileSystemHub()
+        {
+            _fileSystems = new Dictionary<string, IFileSystem>();
+        }
+        
         public void Add(string key, IFileSystem fileSystem)
         {
-            throw new System.NotImplementedException();
+            _fileSystems.Add(key, fileSystem);
         }
 
         public IFileSystem Get(string key)
         {
-            throw new System.NotImplementedException();
+            return _fileSystems.TryGetValue(key, out var fileSystem) ? fileSystem : null;
         }
     }
 }

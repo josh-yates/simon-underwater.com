@@ -14,10 +14,11 @@ namespace Core.UnitTests.FileSystem
         public BasicFileSystemHubTests()
         {
             _sut = new BasicFileSystemHub();
+            _fixture =  new Fixture();
         }
 
         [Fact]
-        public void Get_ReturnsExpectedFileSystem()
+        public void AddAndGet_WorkAsExpected()
         {
             // Arrange
             var key = _fixture.Create<string>();
@@ -30,6 +31,19 @@ namespace Core.UnitTests.FileSystem
 
             // Assert
             Assert.Equal(fileSystem, fileSystemOut);
+        }
+
+        [Fact]
+        public void Get_ReturnsNullIfFilesystemNotAdded()
+        {
+            // Arrange
+            var key = _fixture.Create<string>();
+
+            // Act
+            var fileSystemOut = _sut.Get(key);
+
+            // Assert
+            Assert.Null(fileSystemOut);
         }
     }
 }
