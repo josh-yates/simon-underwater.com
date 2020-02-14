@@ -9,6 +9,7 @@
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Migrations\Migrations.csproj" />
+    <ProjectReference Include="..\core\Core.csproj" />
   </ItemGroup>
 
 

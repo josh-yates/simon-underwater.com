@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using Core.FileSystem;
 using Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,11 @@ namespace Web.Utilities
                     context.Database.Migrate();
                 }
             }
+        }
+
+        public static void AddAppFilesystem(this IServiceCollection services, IConfigurationSection filesystemSection)
+        {
+            var filesystemHub = new BasicFileSystemHub();
         }
     }
 }
