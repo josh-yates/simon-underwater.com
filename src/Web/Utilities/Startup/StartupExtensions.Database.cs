@@ -1,16 +1,14 @@
 using System;
 using System.IO;
-using System.Reflection;
-using Core.FileSystem;
 using Data.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Web.Utilities
+namespace Web.Utilities.Startup
 {
-    public static class StartupExtensions
+    public static partial class StartupExtensions
     {
         public static void AddAppDbContext(this IServiceCollection services, IConfigurationSection databaseSection)
         {
@@ -54,11 +52,6 @@ namespace Web.Utilities
                     context.Database.Migrate();
                 }
             }
-        }
-
-        public static void AddAppFilesystem(this IServiceCollection services, IConfigurationSection filesystemSection)
-        {
-            var filesystemHub = new BasicFileSystemHub();
         }
     }
 }

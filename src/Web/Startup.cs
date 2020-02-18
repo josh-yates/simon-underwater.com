@@ -1,6 +1,4 @@
-using Data.Context;
 using Data.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -10,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Web.Auth;
 using Web.Services;
 using Web.Utilities;
+using Web.Utilities.Startup;
 
 namespace Web
 {
@@ -81,13 +80,16 @@ namespace Web
             });
 
             services.Configure<ImageOptions>(Configuration.GetSection("Images"));
+            services.Configure<FileSystemOptions>(Configuration.GetSection("FileSystem"));
             services.AddSingleton<ImageService>();
+            services.AddAppFilesystemHub();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.MigrateDatabase();
+            app.ConfigureFileSystemHub(env);
             
             if (env.IsDevelopment())
             {

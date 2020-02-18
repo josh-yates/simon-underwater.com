@@ -10,6 +10,7 @@ using SixLabors.ImageSharp.Processing;
 using SixLabors.Primitives;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
+using Core.FileSystem;
 
 namespace Web.Services
 {
@@ -17,18 +18,26 @@ namespace Web.Services
     {
         private readonly IWebHostEnvironment _env;
         private readonly ImageOptions _imageOptions;
+        private readonly IFileSystemHub _fileSystemHub;
+        private readonly FileSystemOptions _fileSystemOptions;
+
         public ImageService(
             IWebHostEnvironment env,
-            IOptions<ImageOptions> imageOptions
+            IOptions<ImageOptions> imageOptions,
+            IFileSystemHub fileSystemHub,
+            IOptions<FileSystemOptions> fileSystemOptions
         )
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
-            _imageOptions = imageOptions.Value ?? throw new ArgumentException(nameof(imageOptions.Value));
+            _imageOptions = imageOptions.Value ?? throw new ArgumentNullException(nameof(imageOptions.Value));
+            _fileSystemHub = fileSystemHub ?? throw new ArgumentNullException(nameof(fileSystemHub));
+            _fileSystemOptions = fileSystemOptions.Value ?? throw new ArgumentNullException(nameof(fileSystemOptions.Value));
         }
         public void GenerateWebVersionForImage(Data.Models.Image image, bool isThumbnail = false)
         {
-            var inputPath = _env.ContentRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.UploadsBaseDirectory, image.OnDiskName)).PhysicalPath;
-            var outputBaseDirectory = isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory;
+            // TODO save the image to a stream, then should be able to save it via the hub
+            var inputPath = _env.ContentRootFileProvider.GetFileInfo(Path.Combine(_fileSystemOptions.UploadsBaseDirectory, image.OnDiskName)).PhysicalPath;
+            var outputBaseDirectory = isThumbnail ? _fileSystemOptions.ThumbnailsBaseDirectory : _fileSystemOptions.WebImagesBaseDirectory;
             var outputPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(outputBaseDirectory, image.OnDiskName)).PhysicalPath;
 
             Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
@@ -44,28 +53,22 @@ namespace Web.Services
             }
         }
 
-        public FileStream GetOriginalImage(Data.Models.Image image)
+        public async Task<FileStream> GetOriginalImage(Data.Models.Image image)
         {
-            var path = _env.ContentRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.UploadsBaseDirectory, image.OnDiskName)).PhysicalPath;
-
-            return File.OpenRead(path);
+            return (FileStream)(await _fileSystemHub.Get(FileSystemKeys.Uploads).GetFileStreamAsync(image.OnDiskName));
         }
 
-        public FileStream GetWebVersionForImage(Data.Models.Image image, bool isThumbnail = false)
+        public async Task<FileStream> GetWebVersionForImage(Data.Models.Image image, bool isThumbnail = false)
         {
-            var baseDirectory = isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory;
-            var path = _env.WebRootFileProvider.GetFileInfo(Path.Combine(baseDirectory, image.OnDiskName)).PhysicalPath;
-
-            return File.OpenRead(path);
+            return (FileStream)(await _fileSystemHub
+                .Get(isThumbnail ? FileSystemKeys.Thumbnails : FileSystemKeys.WebImages)
+                .GetFileStreamAsync(image.OnDiskName));
         }
 
-        public void RemoveGeneratedImages(Data.Models.Image image)
+        public async Task RemoveGeneratedImages(Data.Models.Image image)
         {
-            var webVersionPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.WebImagesBaseDirectory, image.OnDiskName)).PhysicalPath;
-            var thumbnailPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(_imageOptions.ThumbnailsBaseDirectory, image.OnDiskName)).PhysicalPath;
-
-            File.Delete(webVersionPath);
-            File.Delete(thumbnailPath);
+            await _fileSystemHub.Get(FileSystemKeys.WebImages).DeleteFileAsync(image.OnDiskName);
+            await _fileSystemHub.Get(FileSystemKeys.Thumbnails).DeleteFileAsync(image.OnDiskName);
         }
 
         public string GetImageUrl(Data.Models.Image image, bool isThumbnail = false)
