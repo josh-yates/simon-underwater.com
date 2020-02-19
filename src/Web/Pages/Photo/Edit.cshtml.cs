@@ -116,7 +116,7 @@ namespace Web.Pages.Photo
             image.IsDeleted = true;
 
             await _dbContext.SaveChangesAsync();
-            _imageService.RemoveGeneratedImages(image);
+            await _imageService.RemoveGeneratedImagesAsync(image);
 
             return RedirectToPage("../Photos/Index");
         }

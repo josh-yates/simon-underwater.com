@@ -33,11 +33,11 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            _imageService.GenerateWebVersionForImage(image);
+            await _imageService.GenerateWebImageAsync(image);
 
             var contentType = GetContentType(filename);
 
-            return File(_imageService.GetWebVersionForImage(image), contentType);
+            return File(await _imageService.GetWebImageAsync(image), contentType);
         }
 
         [HttpGet("/images/thumbnails/{filename}")]
@@ -50,11 +50,11 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            _imageService.GenerateWebVersionForImage(image, true);
+            await _imageService.GenerateWebImageAsync(image, true);
 
             var contentType = GetContentType(filename);
 
-            return File(_imageService.GetWebVersionForImage(image, true), contentType);
+            return File(await _imageService.GetWebImageAsync(image, true), contentType);
         }
 
         private async Task<Image> FindImageByOnDiskName(string filename)

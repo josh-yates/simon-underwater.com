@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using Web.Utilities;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.Primitives;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Core.FileSystem;
@@ -19,53 +18,51 @@ namespace Web.Services
         private readonly IWebHostEnvironment _env;
         private readonly ImageOptions _imageOptions;
         private readonly IFileSystemHub _fileSystemHub;
-        private readonly FileSystemOptions _fileSystemOptions;
 
         public ImageService(
             IWebHostEnvironment env,
             IOptions<ImageOptions> imageOptions,
-            IFileSystemHub fileSystemHub,
-            IOptions<FileSystemOptions> fileSystemOptions
+            IFileSystemHub fileSystemHub
         )
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
             _imageOptions = imageOptions.Value ?? throw new ArgumentNullException(nameof(imageOptions.Value));
             _fileSystemHub = fileSystemHub ?? throw new ArgumentNullException(nameof(fileSystemHub));
-            _fileSystemOptions = fileSystemOptions.Value ?? throw new ArgumentNullException(nameof(fileSystemOptions.Value));
         }
-        public void GenerateWebVersionForImage(Data.Models.Image image, bool isThumbnail = false)
+        
+        public async Task GenerateWebImageAsync(Data.Models.Image image, bool isThumbnail = false)
         {
-            // TODO save the image to a stream, then should be able to save it via the hub
-            var inputPath = _env.ContentRootFileProvider.GetFileInfo(Path.Combine(_fileSystemOptions.UploadsBaseDirectory, image.OnDiskName)).PhysicalPath;
-            var outputBaseDirectory = isThumbnail ? _fileSystemOptions.ThumbnailsBaseDirectory : _fileSystemOptions.WebImagesBaseDirectory;
-            var outputPath = _env.WebRootFileProvider.GetFileInfo(Path.Combine(outputBaseDirectory, image.OnDiskName)).PhysicalPath;
+            var outputFilesystem = _fileSystemHub.Get(isThumbnail ? FileSystemKeys.Thumbnails : FileSystemKeys.WebImages);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
-
-            using (var inputImage = SixLabors.ImageSharp.Image.Load(inputPath))
+            using (var inputStream = await _fileSystemHub.Get(FileSystemKeys.Uploads).GetFileStreamAsync(image.OnDiskName))
+            using (var outputStream = new MemoryStream())
+            using (var inputImage = SixLabors.ImageSharp.Image.Load(inputStream, out var format))
             {
                 var resizeFactor = isThumbnail ? _imageOptions.ThumbnailResizeFactor : _imageOptions.WebImageResizeFactor;
                 inputImage.Mutate(i => 
                     i.Resize(Convert.ToInt32(inputImage.Width * resizeFactor), Convert.ToInt32(inputImage.Height * resizeFactor))
                      .AutoOrient()
                 );
-                inputImage.Save(outputPath);
+                inputImage.Save(outputStream, format);
+                outputStream.Seek(0, SeekOrigin.Begin);
+                
+                await outputFilesystem.SaveFileAsync(image.OnDiskName, outputStream);
             }
         }
 
-        public async Task<FileStream> GetOriginalImage(Data.Models.Image image)
+        public async Task<FileStream> GetImageUploadAsync(Data.Models.Image image)
         {
             return (FileStream)(await _fileSystemHub.Get(FileSystemKeys.Uploads).GetFileStreamAsync(image.OnDiskName));
         }
 
-        public async Task<FileStream> GetWebVersionForImage(Data.Models.Image image, bool isThumbnail = false)
+        public async Task<FileStream> GetWebImageAsync(Data.Models.Image image, bool isThumbnail = false)
         {
             return (FileStream)(await _fileSystemHub
                 .Get(isThumbnail ? FileSystemKeys.Thumbnails : FileSystemKeys.WebImages)
                 .GetFileStreamAsync(image.OnDiskName));
         }
 
-        public async Task RemoveGeneratedImages(Data.Models.Image image)
+        public async Task RemoveGeneratedImagesAsync(Data.Models.Image image)
         {
             await _fileSystemHub.Get(FileSystemKeys.WebImages).DeleteFileAsync(image.OnDiskName);
             await _fileSystemHub.Get(FileSystemKeys.Thumbnails).DeleteFileAsync(image.OnDiskName);
@@ -73,7 +70,7 @@ namespace Web.Services
 
         public string GetImageUrl(Data.Models.Image image, bool isThumbnail = false)
         {
-            return Url.Combine(isThumbnail ? _imageOptions.ThumbnailsBaseDirectory : _imageOptions.WebImagesBaseDirectory, image.OnDiskName);
+            return Url.Combine(isThumbnail ? _imageOptions.ThumbnailsBaseUrl : _imageOptions.WebImagesBaseUrl, image.OnDiskName);
         }
 
         public List<string> ValidateImageUpload(IFormFile upload)
@@ -118,15 +115,9 @@ namespace Web.Services
                 }
             }
 
-            var savePath = Path.Combine(_env.ContentRootPath, _imageOptions.UploadsBaseDirectory, image.OnDiskName);
+            stream.Seek(0, SeekOrigin.Begin);
 
-            Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-
-            using (var fileStream = new FileStream(savePath, FileMode.Create))
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                await stream.CopyToAsync(fileStream);
-            }
+            await _fileSystemHub.Get(FileSystemKeys.Uploads).SaveFileAsync(image.OnDiskName, stream);
 
             return image;
         }
