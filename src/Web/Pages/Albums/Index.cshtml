@@ -4,3 +4,15 @@
 @{
     Model.TabTitle = Model.PageTitle = "Albums";
 }
+
+@if(Model.Albums.Any())
+{
+    @foreach (var album in Model.Albums)
+    {
+        <a asp-page="/photos" asp-route-a="@album.Id">@album.Title</a>
+    }
+}
+else
+{
+    <p>There are no albums to show :(</p>
+}
