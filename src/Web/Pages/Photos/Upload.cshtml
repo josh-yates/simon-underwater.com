@@ -25,5 +25,6 @@
 }
 <form asp-page="/photos/upload" method="POST" enctype="multipart/form-data">
     <input type="file" multiple asp-for="Files"/>
-    <button type="submit">Submit</button>
+    <a href="/photos">Cancel</a>
+    <button type="submit">Save</button>
 </form>

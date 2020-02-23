@@ -61,10 +61,35 @@ namespace Web.Pages.Albums
 
             if (F != default(DateTime))
             {
-                var startData = F.StartOfDay();
+                var startDate = F.StartOfDay();
 
-                
+                query = query
+                    .Where(a => a
+                        .AlbumImages
+                        .Select(ai => ai.Image.TakenAt)
+                        .Min() >= startDate);
             }
+
+            if (T != default(DateTime))
+            {
+                var endDate = T.EndOfDay();
+
+                query = query
+                    .Where(a => a
+                        .AlbumImages
+                        .Select(ai => ai.Image.TakenAt)
+                        .Max() <= endDate);
+            }
+
+            Albums = await query
+                .ToPaginatedResultAsync(index, 10);
+
+            if (Albums.Count <= 0 && index > 1 && index > Albums.TotalPages)
+            {
+                return RedirectToPage(new { p = Albums.TotalPages });
+            }
+
+            return Page();
         }
 
         private async Task SetFormData()
