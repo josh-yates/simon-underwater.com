@@ -28,9 +28,9 @@ namespace Web.Pages.Albums
         [BindProperty]
         public string Ids { get; set; }
 
-        public async Task OnPostAsync()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var album = new Album
+            var album = new Data.Models.Album
             {
                 Description = Description,
                 Title = Title,
@@ -51,6 +51,8 @@ namespace Web.Pages.Albums
                 .Add(album);
 
             await _dbContext.SaveChangesAsync();
+
+            return RedirectToPage("../album/index", new { id = album.Id });
         }
     }
 }

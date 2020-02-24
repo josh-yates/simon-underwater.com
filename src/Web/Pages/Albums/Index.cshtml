@@ -9,7 +9,7 @@
 {
     @foreach (var album in Model.Albums)
     {
-        <a asp-page="/photos" asp-route-a="@album.Id">@album.Title</a>
+        <a asp-page="/album/index" asp-route-id="@album.Id">@album.Title</a>
     }
 }
 else

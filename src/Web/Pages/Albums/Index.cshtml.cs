@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Data.Context;
-using Data.Models;
 using DataAccess.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,7 +33,7 @@ namespace Web.Pages.Albums
 
         [BindProperty(SupportsGet = true)]
         public DateTime T { get; set; }
-        public PaginatedResult<Album> Albums { get; set; }
+        public PaginatedResult<Data.Models.Album> Albums { get; set; }
         public DateTime? DatePickerMin { get; set; }
         public DateTime? DatePickerMax { get; set; }
 
@@ -66,6 +65,7 @@ namespace Web.Pages.Albums
                 query = query
                     .Where(a => a
                         .AlbumImages
+                        .Where(ai => !ai.Image.IsDeleted)
                         .Select(ai => ai.Image.TakenAt)
                         .Min() >= startDate);
             }
@@ -77,6 +77,7 @@ namespace Web.Pages.Albums
                 query = query
                     .Where(a => a
                         .AlbumImages
+                        .Where(ai => !ai.Image.IsDeleted)
                         .Select(ai => ai.Image.TakenAt)
                         .Max() <= endDate);
             }
