@@ -9,12 +9,15 @@
 
 @section LeftPanel
 {
-    <form asp-page-handler="updateMetadata" method="POST">
+    <form asp-page-handler="update" method="POST">
         <label asp-for="@Model.Title">Title</label>
         <input asp-for="@Model.Title" type="text" />
         <label asp-for="@Model.Description">Description</label>
         <textarea asp-for="@Model.Description"></textarea>
         <button type="submit">Save</button>
         <a asp-page="/album/index" asp-route-id="@Model.Id">Cancel</a>
+    </form>
+    <form asp-page-handler="delete" method="POST">
+        <button type="submit">Delete</button>
     </form>
 }

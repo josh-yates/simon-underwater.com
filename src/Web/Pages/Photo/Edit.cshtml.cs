@@ -20,7 +20,8 @@ namespace Web.Pages.Photo
         public EditModel(
             ImageService imageService,
             AppDbContext dbContext
-        ) {
+        )
+        {
             _imageService = imageService ?? throw new ArgumentNullException(nameof(imageService));
             _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }

@@ -1,8 +1,17 @@
 @page "{id:int}"
 @model IndexModel
 
+@using Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<User> signInManager
+
 @{
     Model.TabTitle = Model.PageTitle = Model.Title;
+}
+
+@if (signInManager.IsSignedIn(HttpContext.User))
+{
+    <a href="/album/@(Model.Id)/edit">Edit</a>
 }
 
 @if(Model.Images.Any())

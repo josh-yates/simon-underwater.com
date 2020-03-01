@@ -30,6 +30,7 @@ namespace Web.Pages.Albums
 
         public async Task<IActionResult> OnPostAsync()
         {
+            // TODO remove this way of adding photos to albums
             var album = new Data.Models.Album
             {
                 Description = Description,
