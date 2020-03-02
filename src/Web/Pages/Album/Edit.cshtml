@@ -1,11 +1,38 @@
 @page "/album/{id:int}/edit"
 @model EditModel
 
+@using Web.Services
+@inject ImageService imageService
+
 @{
     Model.TabTitle = Model.PageTitle = $"Edit {Model.Title}";
 }
 
-@* TODO: thinking we can have a paged, filtered list of all photos here, with the ones currently in the album selected *@
+@if(Model.ImageCheckboxes.Any())
+{
+    @for (var i = 0; i < Model.ImageCheckboxes.Count(); i++)
+    {
+        <label asp-for="ImageCheckboxes[i].Checked">
+            <img src="@imageService.GetImageUrl(Model.ImageCheckboxes[i].Item, true)" />
+        </label>
+        <input type="hidden" asp-for="ImageCheckboxes[i].Item.Id" />
+        <input asp-for="ImageCheckboxes[i].Checked" />
+    }
+
+    @if(Model.ImageCheckboxes.HasPreviousPage)
+    {
+        <a asp-route-p="@(Model.ImageCheckboxes.PageIndex - 1)">Previous</a>
+    }
+    <p>Page @Model.ImageCheckboxes.PageIndex of @Model.ImageCheckboxes.TotalPages</p>
+    @if(Model.ImageCheckboxes.HasNextPage)
+    {
+        <a asp-route-p="@(Model.ImageCheckboxes.PageIndex + 1)">Next</a>
+    }
+}
+else
+{
+    <p>There are no photos to show :(</p>
+}
 
 @section LeftPanel
 {

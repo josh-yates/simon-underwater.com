@@ -77,6 +77,8 @@ namespace Web
                 options.Conventions.AuthorizePage("/about/edit");
                 options.Conventions.AuthorizeFolder("/photo");
                 options.Conventions.AllowAnonymousToPage("/photo/index");
+                options.Conventions.AuthorizeFolder("/album");
+                options.Conventions.AllowAnonymousToPage("/album/index");
             });
 
             services.Configure<ImageOptions>(Configuration.GetSection("Images"));
