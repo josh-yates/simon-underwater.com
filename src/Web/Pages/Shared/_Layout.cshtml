@@ -16,18 +16,18 @@
     <header>
         <partial name="_Header"></partial>
     </header>
-    <main>
-        @if(!string.IsNullOrEmpty(Model.PageTitle))
-        {
-            <h1>@Model.PageTitle</h1>
-        }
-        @RenderBody()
-    </main>
+    @if(!string.IsNullOrEmpty(Model.PageTitle))
+    {
+        <h1>@Model.PageTitle</h1>
+    }
     @if (IsSectionDefined("LeftPanel"))
     {
         <aside>
             @RenderSection("LeftPanel", required: false)
         </aside>
     }
+    <main>
+        @RenderBody()
+    </main>
 </body>
 </html>

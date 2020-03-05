@@ -15,8 +15,8 @@
         <label asp-for="ImageCheckboxes[i].Checked">
             <img src="@imageService.GetImageUrl(Model.ImageCheckboxes[i].Item, true)" />
         </label>
-        <input type="hidden" asp-for="ImageCheckboxes[i].Item.Id" />
-        <input asp-for="ImageCheckboxes[i].Checked" />
+        <input form="updateAlbum" type="hidden" asp-for="ImageCheckboxes[i].Item.Id" />
+        <input form="updateAlbum" asp-for="ImageCheckboxes[i].Checked" />
     }
 
     @if(Model.ImageCheckboxes.HasPreviousPage)
@@ -36,7 +36,8 @@ else
 
 @section LeftPanel
 {
-    <form asp-page-handler="update" method="POST">
+    <h2>Album details</h2>
+    <form id="updateAlbum" asp-page-handler="update" method="POST">
         <label asp-for="@Model.Title">Title</label>
         <input asp-for="@Model.Title" type="text" />
         <label asp-for="@Model.Description">Description</label>
@@ -46,5 +47,16 @@ else
     </form>
     <form asp-page-handler="delete" method="POST">
         <button type="submit">Delete</button>
+    </form>
+    <h2>Search for photos</h2>
+    <form asp-page="/album/@(Model.Id)/edit" asp-route-id="@Model.Id" method="GET">
+    @if(Model.DatePickerMin.HasValue && Model.DatePickerMax.HasValue)
+    {
+        <input type="date" asp-for="F" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
+        <input type="date" asp-for="T" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
+    }
+        <input type="search" asp-for="S"/>
+        <a href="/album/@(Model.Id)/edit">Clear</a>
+        <button type="submit">Search</button>
     </form>
 }

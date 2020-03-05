@@ -58,6 +58,8 @@ namespace Web.Pages.Album
                 return NotFound();
             }
 
+            await SetFormData();
+
             Id = album.Id;
             Description = album.Description;
             Title = album.Title;
