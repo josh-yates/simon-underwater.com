@@ -98,7 +98,7 @@ namespace Web.Pages.Album
             
             if (images.Count <= 0 && index > 1 && index > images.TotalPages)
             {
-                return RedirectToPage(new { p = images.TotalPages });
+                return RedirectToPage(new { p = images.TotalPages, s = S, f = F.ToString("yyyy-MM-dd"), t = T.ToString("yyyy-MM-dd") });
             }
 
             var imageIds = images.Select(i => i.Id);
@@ -154,7 +154,7 @@ namespace Web.Pages.Album
                 await _dbContext.SaveChangesAsync();
             }
 
-            return RedirectToPage();
+            return RedirectToPage(new { p = P, s = S, f = F.ToString("yyyy-MM-dd"), t = T.ToString("yyyy-MM-dd") });
         }
 
         public async Task<IActionResult> OnPostDelete(int id)
