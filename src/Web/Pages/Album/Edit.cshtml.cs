@@ -135,24 +135,43 @@ namespace Web.Pages.Album
                 return NotFound();
             }
 
-            var albumChanged = false;
+            album.Title = Title;
+            album.Description = Description;
 
-            if (album.Title != Title)
-            {
-                album.Title = Title;
-                albumChanged = true;
-            }
+            var viewImageIds = ImageCheckboxes.Select(ic => ic.Item.Id);
 
-            if (album.Description != Description)
-            {
-                album.Description = Description;
-                albumChanged = true;
-            }
+            var existingImageIds = await _dbContext
+                .AlbumImages
+                .Where(ai => ai.AlbumId == album.Id)
+                .Where(ai => viewImageIds.Contains(ai.ImageId))
+                .Select(ai => ai.ImageId)
+                .ToArrayAsync();
+            
+            // Find additions; checked images that aren't in the existing list
+            var imagesAdded = ImageCheckboxes
+                .Where(ic => ic.Checked)
+                .Select(ic => ic.Item.Id)
+                .Except(existingImageIds);
 
-            if (albumChanged)
-            {
-                await _dbContext.SaveChangesAsync();
-            }
+
+            // Find deletions; unchecked images that are in the existing list
+            var imagesRemoved = ImageCheckboxes
+                .Where(ic => !ic.Checked)
+                .Select(ic => ic.Item.Id)
+                .Intersect(existingImageIds);
+
+            _dbContext
+                .AlbumImages
+                .AddRange(imagesAdded.Select(i => new AlbumImage
+                {
+                    ImageId = i,
+                    AlbumId = album.Id
+                }));
+            
+            _dbContext
+                .RemoveRange(imagesRemoved.S)
+
+            await _dbContext.SaveChangesAsync();
 
             return RedirectToPage(new { p = P, s = S, f = F.ToString("yyyy-MM-dd"), t = T.ToString("yyyy-MM-dd") });
         }
