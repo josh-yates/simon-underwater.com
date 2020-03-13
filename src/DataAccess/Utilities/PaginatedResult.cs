@@ -12,7 +12,9 @@ namespace DataAccess.Utilities
         public int TotalPages { get; private set; }
         public int TotalCount { get; private set; }
 
-        public PaginatedResult(List<T> items, int count, int pageIndex, int pageSize)
+        public PaginatedResult() : this(new List<T>(), 0, 0, 0) { }
+
+        public PaginatedResult(List<T> items, int count, int pageIndex, int pageSize) : base()
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);

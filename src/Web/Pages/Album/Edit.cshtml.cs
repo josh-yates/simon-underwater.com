@@ -41,6 +41,7 @@ namespace Web.Pages.Album
         [BindProperty]
         public string Description { get; set; }
 
+        [BindProperty]
         public PaginatedResult<Checkbox<Image>> ImageCheckboxes { get; set; }
         public int Id { get; set; }
         public DateTime? DatePickerMin { get; set; }
@@ -140,36 +141,40 @@ namespace Web.Pages.Album
 
             var viewImageIds = ImageCheckboxes.Select(ic => ic.Item.Id);
 
-            var existingImageIds = await _dbContext
+            var existingImages = await _dbContext
                 .AlbumImages
                 .Where(ai => ai.AlbumId == album.Id)
                 .Where(ai => viewImageIds.Contains(ai.ImageId))
-                .Select(ai => ai.ImageId)
                 .ToArrayAsync();
             
             // Find additions; checked images that aren't in the existing list
+            var existingIds = existingImages.Select(ai => ai.ImageId);
             var imagesAdded = ImageCheckboxes
                 .Where(ic => ic.Checked)
                 .Select(ic => ic.Item.Id)
-                .Except(existingImageIds);
-
-
-            // Find deletions; unchecked images that are in the existing list
-            var imagesRemoved = ImageCheckboxes
-                .Where(ic => !ic.Checked)
-                .Select(ic => ic.Item.Id)
-                .Intersect(existingImageIds);
-
-            _dbContext
-                .AlbumImages
-                .AddRange(imagesAdded.Select(i => new AlbumImage
+                .Except(existingIds)
+                .Select(i => new AlbumImage
                 {
                     ImageId = i,
                     AlbumId = album.Id
-                }));
+                });
+
+
+            // Find deletions; unchecked images that are in the existing list
+            var uncheckedIds = ImageCheckboxes
+                .Where(ic => !ic.Checked)
+                .Select(ic => ic.Item.Id);
+            
+            var imagesRemoved = existingImages
+                .Where(ai => uncheckedIds.Contains(ai.ImageId));
+
+            _dbContext
+                .AlbumImages
+                .AddRange(imagesAdded);
             
             _dbContext
-                .RemoveRange(imagesRemoved.S)
+                .AlbumImages
+                .RemoveRange(imagesRemoved);
 
             await _dbContext.SaveChangesAsync();
 
