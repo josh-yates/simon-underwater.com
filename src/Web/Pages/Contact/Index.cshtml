@@ -4,3 +4,14 @@
 @{
     Model.TabTitle = Model.PageTitle = "Contact";
 }
+
+<form asp-page="/contact">
+    <label asp-for="@Model.UserEmail">Email</label>
+    <input asp-for="@Model.UserEmail" type="email" inputmode="email"/>
+    <input asp-for="@Model.Email" type="text" autocomplete="off" placeholder="Do not write in this field."/>
+    <label asp-for="@Model.Name">Name</label>
+    <input asp-for="@Model.Name" type="text" />
+    <label asp-for="@Model.Message">Message</label>
+    <textarea asp-for="@Model.Message"></textarea>
+    <button type="submit">Send</button>
+</form>
