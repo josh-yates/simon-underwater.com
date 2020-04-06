@@ -20,6 +20,7 @@ namespace Web.Utilities.Startup
 
         public static void ConfigureFileSystemHub(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // TODO: ensure filesystem created
             var options = app
                 .ApplicationServices
                 .GetRequiredService<IOptions<FileSystemOptions>>()
