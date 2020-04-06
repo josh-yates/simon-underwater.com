@@ -26,7 +26,7 @@ namespace Web.Pages.Contact
         [BindProperty]
         public string Message { get; set; }
 
-        public Task OnPostAsync()
+        public void OnPostAsync()
         {
             
         }
