@@ -4,10 +4,10 @@
 @{
     Model.TabTitle = Model.PageTitle = "Log in";
 }
-<form asp-page="login" method="POST" asp-route-returnurl="@Request.Query["returnurl"]">
+<form asp-page="login" method="POST">
     <label asp-for="@Model.EmailAddress">Email</label>
     <input asp-for="@Model.EmailAddress" type="text" />
-    <label asp-for="@Model.Password">Password</label>
-    <input asp-for="@Model.Password" type="password" />
+    <label asp-for="@Model.RememberMe">Remember me</label>
+    <input asp-for="@Model.RememberMe" type="checkbox" />
     <button type="submit">Go</button>
 </form>

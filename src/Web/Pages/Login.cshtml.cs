@@ -25,8 +25,6 @@ namespace Web.Pages
         [BindProperty]
         public string EmailAddress { get; set; }
         [BindProperty]
-        public string Password { get; set; }
-        [BindProperty]
         public bool RememberMe { get; set; }
 
         public IActionResult OnGet()
@@ -39,20 +37,11 @@ namespace Web.Pages
             return Page();
         }
         
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync()
         {
-            // TODO rework this
             var user = await _userManager.FindByEmailAsync(EmailAddress);
-            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            var changePassword = await _userManager.ResetPasswordAsync(user, token, Password);
-
-            var result = await _signInManager.PasswordSignInAsync(EmailAddress, Password, RememberMe, false);
-
-            if (result.Succeeded)
-            {
-                return TryLocalRedirect(returnUrl);
-            }
+            // TODO finish this 😉
 
             return Page();
         }

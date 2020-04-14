@@ -1,3 +1,4 @@
+using System;
 using Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -35,6 +36,8 @@ namespace Web
         {
             services.AddAppDbContext(Configuration.GetSection("Database"));
 
+            services.Configure<DataProtectionTokenProviderOptions>(x => x.TokenLifespan = TimeSpan.FromMinutes(15));
+
             services.AddIdentityCore<User>(options => 
             {
                 options.User.RequireUniqueEmail = true;
@@ -43,7 +46,6 @@ namespace Web
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
-                
             })
             .AddDefaultTokenProviders()
             .AddUserStore<UserStore>()

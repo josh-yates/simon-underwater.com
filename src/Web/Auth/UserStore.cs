@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Web.Auth
 {
-    public class UserStore : IUserStore<User>, IUserEmailStore<User>, IUserPasswordStore<User>
+    public class UserStore : IUserStore<User>, IUserEmailStore<User>
     {
         private readonly AppDbContext _context;
 
@@ -114,23 +114,6 @@ namespace Web.Auth
         public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
         {
             user.EmailAddress = normalizedEmail;
-
-            return Task.CompletedTask;
-        }
-
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(user.PasswordHash);
-        }
-
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
-        {
-            return Task.FromResult(user.PasswordHash != null && user.PasswordHash.Length > 0);
-        }
-
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
-        {
-            user.PasswordHash = passwordHash;
 
             return Task.CompletedTask;
         }
