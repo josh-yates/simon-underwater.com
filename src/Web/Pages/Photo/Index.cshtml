@@ -2,16 +2,9 @@
 @model IndexModel
 
 @using Data.Models
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<User> signInManager
 
 @{
     Model.TabTitle = Model.PageTitle = "Photo";
-}
-
-@if (signInManager.IsSignedIn(HttpContext.User))
-{
-    <a href="/photo/@(Model.Id)/edit">Edit</a>
 }
 
 <img src="@Model.ImageUrl" />
