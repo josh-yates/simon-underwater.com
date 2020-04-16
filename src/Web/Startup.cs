@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Web.Auth;
+using Web.Auth.MagicLink;
 using Web.Services;
 using Web.Utilities;
 using Web.Utilities.Startup;
@@ -47,9 +48,10 @@ namespace Web
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
             })
-            .AddDefaultTokenProviders()
             .AddUserStore<UserStore>()
-            .AddSignInManager<SignInManager<User>>();
+            .AddSignInManager<SignInManager<User>>()
+            .AddDefaultTokenProviders()
+            .AddPasswordlessLoginTokenProvider();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
 

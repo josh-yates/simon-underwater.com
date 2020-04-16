@@ -6,6 +6,6 @@ namespace Web.Auth
         public static readonly string LastNameClaim = "LastName";
         public static readonly string EmailClaim = "EmailAddress";
         public static readonly string MagicLinkTokenPurpose = "magic-link";
-        public static readonly string MagicLinkTokenProvider = "default";
+        public static readonly string MagicLinkTokenProvider = "PasswordlessLoginProvider";
     }
 }
