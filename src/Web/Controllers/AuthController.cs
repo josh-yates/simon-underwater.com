@@ -23,13 +23,13 @@ namespace Web.Controllers
         }
 
         [HttpGet("/auth/login")]
-        public async Task<IActionResult> Login([FromQuery] string token, [FromQuery] string email, [FromQuery] Boolean rememberMe)
+        public async Task<IActionResult> Login([FromQuery] string token, [FromQuery] string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
             if (await _userManager.VerifyUserTokenAsync(user, Constants.MagicLinkTokenProvider, Constants.MagicLinkTokenPurpose, token))
             {
-                await _signInManager.SignInAsync(user, rememberMe);
+                await _signInManager.SignInAsync(user, true);
 
                 return LocalRedirect("~/");
             }

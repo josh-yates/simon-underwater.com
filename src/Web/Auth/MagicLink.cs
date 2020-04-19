@@ -6,22 +6,23 @@ using Microsoft.Extensions.Options;
 
 namespace Web.Auth.MagicLink
 {
-    public class PasswordlessLoginTokenProviderOptions : DataProtectionTokenProviderOptions
+    public class MagicLinkTokenProviderOptions : DataProtectionTokenProviderOptions
     {
-        public PasswordlessLoginTokenProviderOptions()
+        public MagicLinkTokenProviderOptions()
         {
-            Name = "PasswordlessLoginTokenProvider";
+            // TODO tie the lifespan to config
+            Name = Constants.MagicLinkTokenProvider;
             TokenLifespan = TimeSpan.FromMinutes(15);
         }
     }
 
-    public class PasswordlessLoginTokenProvider<TUser> : DataProtectorTokenProvider<TUser>
+    public class MagicLinkTokenProvider<TUser> : DataProtectorTokenProvider<TUser>
         where TUser: class
     {
-        public PasswordlessLoginTokenProvider(
+        public MagicLinkTokenProvider(
             IDataProtectionProvider dataProtectionProvider,
-            IOptions<PasswordlessLoginTokenProviderOptions> options,
-            ILogger<PasswordlessLoginTokenProvider<TUser>> logger) 
+            IOptions<MagicLinkTokenProviderOptions> options,
+            ILogger<MagicLinkTokenProvider<TUser>> logger) 
             : base(dataProtectionProvider, options, logger)
         {
         }
@@ -29,13 +30,11 @@ namespace Web.Auth.MagicLink
 
     public static class CustomIdentityBuilderExtensions
     {
-        public static IdentityBuilder AddPasswordlessLoginTokenProvider(this IdentityBuilder builder)
+        public static IdentityBuilder AddMagicLinkTokenProvider(this IdentityBuilder builder)
         {
             var userType = builder.UserType;
-            var provider= typeof(PasswordlessLoginTokenProvider<>).MakeGenericType(userType);
-            return builder.AddTokenProvider("PasswordlessLoginProvider", provider);
+            var provider= typeof(MagicLinkTokenProvider<>).MakeGenericType(userType);
+            return builder.AddTokenProvider(Constants.MagicLinkTokenProvider, provider);
         }
     }
-
-
 }

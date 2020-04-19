@@ -37,8 +37,6 @@ namespace Web
         {
             services.AddAppDbContext(Configuration.GetSection("Database"));
 
-            services.Configure<DataProtectionTokenProviderOptions>(x => x.TokenLifespan = TimeSpan.FromMinutes(15));
-
             services.AddIdentityCore<User>(options => 
             {
                 options.User.RequireUniqueEmail = true;
@@ -51,7 +49,7 @@ namespace Web
             .AddUserStore<UserStore>()
             .AddSignInManager<SignInManager<User>>()
             .AddDefaultTokenProviders()
-            .AddPasswordlessLoginTokenProvider();
+            .AddMagicLinkTokenProvider();
 
             services.AddScoped<IUserClaimsPrincipalFactory<User>, CustomUserClaimsPrincipalFactory>();
 
@@ -86,9 +84,11 @@ namespace Web
                 options.Conventions.AllowAnonymousToPage("/album/index");
             });
 
+            services.AddHttpContextAccessor();
             services.Configure<ImageOptions>(Configuration.GetSection("Images"));
             services.Configure<FileSystemOptions>(Configuration.GetSection("FileSystem"));
             services.AddSingleton<ImageService>();
+            services.AddScoped<MagicLinkService>();
             services.AddAppFilesystemHub();
         }
 
