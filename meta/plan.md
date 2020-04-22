@@ -33,6 +33,7 @@
     - Metrics, logs, errors
     - Admin buttons for clearing cache(s)
     - TBC
+- Error
 
 ## Other
 - Caching
@@ -65,6 +66,7 @@
 - [ ] Photo upload
 - [ ] Photo
 - [ ] Photo edit
+- [ ] Error
 
 ## Other
 - [ ] Auth

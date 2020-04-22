@@ -12,22 +12,11 @@
         Quick actions
         <ul>
             <li>
-                <a href="/dashboard">Site dashboard</a>
-            </li>
-            <li>
                 <a href="/photos/upload">Upload photos</a>
-            </li>
-            <li>
-                <a href="/albums/add">Add an album</a>
-            </li>
-            <li>
-                <a href="/contact/requests">See contact requests</a>
-            </li>
-            <li>
-                <a href="/about/edit">Edit your info</a>
             </li>
         </ul>
     </nav>
+    @* TODO: point this at the auth controller *@
     <form asp-page-handler="logout" method="POST">
         <button type="submit">Log out</button>
     </form>
@@ -46,16 +35,7 @@ else
                 <li>
                     <a href="/photos">Photos</a>
                 </li>
-                <li>
-                    <a href="/albums">Albums</a>
-                </li>
             </ul>
-        </li>
-        <li>
-            <a href="/about">About</a>
-        </li>
-        <li>
-            <a href="/contact">Contact</a>
         </li>
     </ul>
 </nav>

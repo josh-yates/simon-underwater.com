@@ -72,16 +72,9 @@ namespace Web
             .AddRazorPagesOptions(options =>
             {
                 // TODO consider whitelisting anonymous routes
-                options.Conventions.AuthorizeFolder("/dashboard");
                 options.Conventions.AuthorizePage("/photos/upload");
-                options.Conventions.AuthorizePage("/albums/add");
-                options.Conventions.AuthorizePage("/contact/requests");
-                options.Conventions.AuthorizePage("/contact/request");
-                options.Conventions.AuthorizePage("/about/edit");
                 options.Conventions.AuthorizeFolder("/photo");
                 options.Conventions.AllowAnonymousToPage("/photo/index");
-                options.Conventions.AuthorizeFolder("/album");
-                options.Conventions.AllowAnonymousToPage("/album/index");
             });
 
             services.AddHttpContextAccessor();
