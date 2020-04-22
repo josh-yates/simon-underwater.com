@@ -16,8 +16,7 @@
             </li>
         </ul>
     </nav>
-    @* TODO: point this at the auth controller *@
-    <form asp-page-handler="logout" method="POST">
+    <form asp-controller="auth" asp-action="logout" method="POST">
         <button type="submit">Log out</button>
     </form>
 }

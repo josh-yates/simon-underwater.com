@@ -9,12 +9,6 @@ namespace Web.Pages.Shared
     {
         public string TabTitle { get; set; }
         public string PageTitle { get; set; }
-        public async Task<IActionResult> OnPostLogout()
-        {
-            await HttpContext.SignOutAsync();
-
-            return LocalRedirect("~/login");
-        }
 
         protected IActionResult RedirectToHome()
         {
