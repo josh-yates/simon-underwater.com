@@ -32,6 +32,9 @@ msbuild.log
 msbuild.err
 msbuild.wrn
 
+# Packages
+**/node_modules/
+
 # Runtime file paths
 [Uu]ploads/
 **/wwwroot/[Ii]mages
