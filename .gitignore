@@ -31,13 +31,13 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
-**/wwwroot/styles/
+**/wwwroot/
+!**/wwwroot/favicon.ico
 
 # Packages
 **/node_modules/
 
 # Runtime file paths
 [Uu]ploads/
-**/wwwroot/[Ii]mages
 # Visual Studio 2015
 .vs/

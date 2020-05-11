@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "scss": "node-sass -rw ./ -o wwwroot/"
+    "scss": "node-sass -rw ./ -o wwwroot/",
+    "ts": "tsc --watch"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "typescript": "^3.8.3"
   }
 }
