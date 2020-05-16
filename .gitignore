@@ -19,6 +19,7 @@ appsettings.secrets.*.json
 
 # Generated files
 openapi.json
+**/[Ss]cripts/generated/
 
 # Build results
 [Dd]ebug/

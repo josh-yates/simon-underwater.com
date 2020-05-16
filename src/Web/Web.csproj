@@ -4,14 +4,12 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Migrations\Migrations.csproj" />
     <ProjectReference Include="..\core\Core.csproj" />
   </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Enable.Extensions.FileSystem.Physical" Version="0.1.46" />
@@ -31,14 +29,12 @@
     <PackageReference Include="system.data.sqlclient" Version="4.8.0" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(Configuration)' == 'Debug'">
-    <None Update="appsettings.secrets.json" CopyToOutputDirectory="PreserveNewest" />
-  </ItemGroup>
-
   <Target Name="NSwag" AfterTargets="Build">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
     <Exec Command="$(NSwagExe_Core31) webapi2swagger  /nobuild:true /assembly:$(OutDir)Web.DLL /output:openapi.json" />
+    <Exec Command="$(NSwagExe_Core31) openapi2tsclient /input:openapi.json /output:Scripts/generated/api.ts" />
     <RemoveDir Directories="$(OutDir)References" />
+    <Delete Files="openapi.json" />
   </Target>
 
 </Project>
