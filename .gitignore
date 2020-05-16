@@ -17,6 +17,9 @@ project.lock.json
 # Secret files
 appsettings.secrets.*.json
 
+# Generated files
+openapi.json
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
