@@ -2,39 +2,37 @@
 @using Web.Auth
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> signInManager
-<nav>
+<nav class="header__home-container">
     <a href="/">Home</a>
 </nav>
-@if (signInManager.IsSignedIn(Context.User))
-{
-    <text>Hi, @User.FindFirst(Constants.FirstNameClaim).Value</text>
-    <nav>
-        Quick actions
-        <ul>
-            <li>
-                <a href="/photos/upload">Upload photos</a>
-            </li>
-        </ul>
-    </nav>
-    <form asp-controller="auth" asp-action="logout" method="POST">
-        <button type="submit">Log out</button>
-    </form>
-}
-else
-{
-    <nav>
-        <a href="/login">Log in</a>
-    </nav>
-}
-<nav>
-    <ul>
-        <li>
+<nav class="header__main-menu">
+    <ul class="main-menu__links">
+        <li class="main-menu__links__dropdown-container">
             Gallery
-            <ul>
+            <ul class="main-menu__links__dropdown">
                 <li>
-                    <a href="/photos">Photos</a>
+                    <a class="dropdown-link" href="/photos">Photos</a>
                 </li>
             </ul>
         </li>
     </ul>
+    @if (signInManager.IsSignedIn(Context.User))
+    {
+        <span class="main-menu__hello-text">Hi, @User.FindFirst(Constants.FirstNameClaim).Value</span>
+        <div class="main-menu__links__dropdown-container">
+            Actions
+            <ul class="main-menu__links__dropdown">
+                <li>
+                    <a class="dropdown-link" href="/photos/upload">Upload photos</a>
+                </li>
+            </ul>
+        </div>
+        <form asp-controller="auth" asp-action="logout" method="POST">
+            <button type="submit">Log out</button>
+        </form>
+    }
+    else
+    {
+        <a class="main-menu__login" href="/login">Log in</a>
+    }
 </nav>

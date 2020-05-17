@@ -11,24 +11,25 @@
         }
         Simon Yates
     </title>
-    <link rel="stylesheet" type="text/css" href="styles/layout.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
+    <link rel="stylesheet" type="text/css" href="~/styles/layout.css">
 </head>
-<body>
+<body class="body">
     <header class="header">
         <partial name="_Header"></partial>
     </header>
-    @if(!string.IsNullOrEmpty(Model.PageTitle))
-    {
-        <h1>@Model.PageTitle</h1>
-    }
-    @if (IsSectionDefined("LeftPanel"))
-    {
-        <aside>
-            @RenderSection("LeftPanel", required: false)
-        </aside>
-    }
-    <main>
-        @RenderBody()
-    </main>
+    <div class="body-container">
+        @if (IsSectionDefined("LeftPanel"))
+        {
+            <aside class="left-panel">
+                <section class="left-panel__content">
+                    @RenderSection("LeftPanel", required: false)
+                </section>
+            </aside>
+        }
+        <main class="main">
+            @RenderBody()
+        </main>
+    </div>
 </body>
 </html>

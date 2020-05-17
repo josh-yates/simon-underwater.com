@@ -1,14 +1,121 @@
 @import 'lib/colours';
+@import 'lib/breakpoints';
 
-body {
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: $text;
+    cursor: pointer;
+
+    &:visited {
+        color: $text;
+    }
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.body {
     background-color: $background;
     margin: 0;
     padding: 0;
-    width: 100vw;
     height: 100vh;
     color: $text;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    font-family: Karla, sans-serif;
+    font-size: 1.0625rem;
+}
+
+.body-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+    display: flex;
+    align-items: stretch;
 }
 
 .header {
-    width: 100%
+    height: 4rem;
+    display: flex;
+}
+
+.main, .left-panel {
+    flex-grow: 1;
+    flex-shrink: 0;
+}
+
+.left-panel__content {
+    background-color: $left-panel-background;
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.left-panel {
+    max-width: 25rem;
+    padding: 2rem 0;
+}
+
+.header__home-container {
+    flex-shrink: 0;
+    flex-grow: 1;
+    max-width: 25rem;
+    align-items: center;
+    display: flex;
+}
+
+.header__main-menu,
+.main-menu__links {
+    display: flex;
+    flex-grow: 1;
+    align-items: center;
+}
+
+.header__main-menu > * {
+    margin-right: 0.5rem;
+}
+
+.main-menu__hello-text,
+.main-menu__login {
+    margin-left: auto;
+}
+
+.main-menu__links__dropdown {
+    position: absolute;
+    background-color: $menu-background;
+    padding: 1rem;
+    border-radius: 4px;
+    display: none;
+}
+
+.main-menu__links__dropdown-container {
+    position: relative;
+
+    &:hover,
+    &:focus,
+    &:focus-within {
+        .main-menu__links__dropdown {
+            display: block;
+        }
+    }
+}
+
+.dropdown-link {
+    color: $menu-text;
+
+    &:visited {
+        color: $menu-text;
+    }
 }
