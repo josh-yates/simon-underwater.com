@@ -1,4 +1,5 @@
 ﻿@model BasePageModel
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,10 @@
     <link rel="stylesheet" type="text/css" href="~/styles/layout.css">
 </head>
 <body class="body">
+    @if(!string.IsNullOrWhiteSpace(Model.BackgroundImageUrl))
+    {
+        <div class="body__background-image" style="background-image: url(@Model.BackgroundImageUrl)"></div>
+    }
     <header class="header">
         <partial name="_Header"></partial>
     </header>

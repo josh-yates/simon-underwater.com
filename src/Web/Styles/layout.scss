@@ -35,6 +35,22 @@ li {
     align-items: stretch;
     font-family: Karla, sans-serif;
     font-size: 1.0625rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.body__background-image {
+    $blur-px: 1rem;
+    position: absolute;
+    top: -1 * $blur-px;
+    left: -1 * $blur-px;
+    right:-1 * $blur-px;
+    bottom: -1 * $blur-px;
+    z-index: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    filter: blur($blur-px) brightness(40%);
 }
 
 .body-container {
@@ -42,11 +58,13 @@ li {
     flex-shrink: 0;
     display: flex;
     align-items: stretch;
+    z-index: 1;
 }
 
 .header {
     height: 4rem;
     display: flex;
+    z-index: 1;
 }
 
 .main, .left-panel {

@@ -1,5 +1,4 @@
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,6 +8,7 @@ namespace Web.Pages.Shared
     {
         public string TabTitle { get; set; }
         public string PageTitle { get; set; }
+        public string BackgroundImageUrl { get; set; }
 
         protected IActionResult RedirectToHome()
         {
