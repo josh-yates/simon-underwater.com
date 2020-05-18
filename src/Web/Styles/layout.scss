@@ -114,6 +114,8 @@ li {
     position: absolute;
     background-color: $menu-background;
     padding: 1rem;
+    top: 0;
+    padding-top: 2rem;
     border-radius: 4px;
     display: none;
 }
@@ -124,6 +126,12 @@ li {
     &:hover,
     &:focus,
     &:focus-within {
+        .dropdown-container__text {
+            color: $menu-text;
+            position: relative;
+            z-index: 1;
+        }
+        
         .main-menu__links__dropdown {
             display: block;
         }
