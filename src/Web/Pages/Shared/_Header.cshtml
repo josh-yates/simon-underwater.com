@@ -2,37 +2,26 @@
 @using Web.Auth
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> signInManager
-<nav class="header__home-container">
-    <a href="/">Home</a>
+<nav class="header__home-menu">
+    <a class="home-menu__link" href="/">Home</a>
 </nav>
 <nav class="header__main-menu">
-    <ul class="main-menu__links">
-        <li class="main-menu__links__dropdown-container">
-            <span class="dropdown-container__text">Gallery</span>
-            <ul class="main-menu__links__dropdown">
-                <li>
-                    <a class="dropdown-link" href="/photos">Photos</a>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <a class="main-menu__link" href="/photos">Photos</a>
     @if (signInManager.IsSignedIn(Context.User))
     {
         <span class="main-menu__hello-text">Hi, @User.FindFirst(Constants.FirstNameClaim).Value</span>
-        <div class="main-menu__links__dropdown-container">
-            Actions
-            <ul class="main-menu__links__dropdown">
-                <li>
-                    <a class="dropdown-link" href="/photos/upload">Upload photos</a>
-                </li>
-            </ul>
+        <div class="main-menu__actions-dropdown">
+            <span class="actions-dropdown__heading">Actions</span>
+            <div class="actions-dropdown__links">
+                <a class="actions-dropdown__link actions-dropdown__link--upload" href="/photos/upload">Upload photos</a>
+                <form class="actions-dropdown__logout-form" asp-controller="auth" asp-action="logout" method="POST">
+                    <button class="actions-dropdown__link actions-dropdown__link--logout" type="submit">Log out</button>
+                </form>
+            </div>
         </div>
-        <form asp-controller="auth" asp-action="logout" method="POST">
-            <button type="submit">Log out</button>
-        </form>
     }
     else
     {
-        <a class="main-menu__login" href="/login">Log in</a>
+        <a class="main-menu__link main-menu__link--login" href="/login">Log in</a>
     }
 </nav>
