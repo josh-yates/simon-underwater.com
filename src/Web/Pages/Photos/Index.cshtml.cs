@@ -81,6 +81,11 @@ namespace Web.Pages.Photos
                 return RedirectToPage(new { p = Images.TotalPages });
             }
 
+            if (Images.Count > 0)
+            {
+                BackgroundImageUrl = _imageService.GetImageUrl(Images.First());
+            }
+
             return Page();
         }
 

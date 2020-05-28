@@ -1,28 +1,9 @@
 @import 'lib/colours';
 @import 'lib/breakpoints';
+@import 'lib/font';
+@import 'lib/preset';
 
-* {
-    box-sizing: border-box;
-}
-
-a {
-    text-decoration: none;
-    color: $off-white;
-    cursor: pointer;
-
-    &:visited {
-        color: $off-white;
-    }
-}
-
-ul {
-    margin: 0;
-    padding: 0;
-}
-
-li {
-    list-style: none;
-}
+@include preset;
 
 .body {
     background-color: $lighter-blue;
@@ -33,8 +14,8 @@ li {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    font-family: Karla, sans-serif;
-    font-size: 1.0625rem;
+    font-family: $font-family;
+    font-size: $font-size--standard;
     position: relative;
     overflow: hidden;
 }
@@ -144,8 +125,8 @@ li {
     align-items: center;
     justify-content: center;
     height: 1.5rem;
-    font-size: 1.0625rem;
-    font-family: Karla, sans-serif;
+    font-size: $font-size--standard;
+    font-family: $font-family;
     background: none;
     border: none;
     cursor: pointer;
