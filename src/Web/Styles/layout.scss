@@ -67,6 +67,7 @@
 .left-panel {
     max-width: 25rem;
     padding: 2rem 0;
+    width: 100%;
 }
 
 .header__home-menu {
@@ -154,6 +155,36 @@
             z-index: 2;
             pointer-events: none;
             position: relative;
+        }
+    }
+}
+
+.left-panel-form {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: start;
+    height: 100%;
+
+    .form__item {
+        margin-bottom: 1rem;
+
+        &--bottom {
+            margin-top: auto;
+            margin-bottom: 0;
+        }
+    }
+}
+
+.form__horizontal-container {
+    display: flex;
+
+    .form__item {
+        margin: 0;
+        flex-grow: 1;
+
+        &:not(:last-child) {
+            margin-right: 1rem;
         }
     }
 }
