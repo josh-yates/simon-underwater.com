@@ -8,7 +8,7 @@
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\Migrations\Migrations.csproj" />
-    <ProjectReference Include="..\core\Core.csproj" />
+    <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +31,7 @@
 
   <Target Name="NSwag" AfterTargets="Build">
     <Copy SourceFiles="@(Reference)" DestinationFolder="$(OutDir)References" />
-    <Exec Command="$(NSwagExe_Core31) webapi2swagger  /nobuild:true /assembly:$(OutDir)Web.DLL /output:openapi.json" />
+    <Exec Command="$(NSwagExe_Core31) webapi2swagger  /nobuild:true /assembly:$(OutDir)Web.dll /output:openapi.json" />
     <Exec Command="$(NSwagExe_Core31) openapi2tsclient /input:openapi.json /output:Scripts/generated/api.ts" />
     <RemoveDir Directories="$(OutDir)References" />
     <Delete Files="openapi.json" />
