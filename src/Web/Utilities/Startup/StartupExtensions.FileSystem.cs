@@ -30,6 +30,10 @@ namespace Web.Utilities.Startup
             var thumbnailsDirectory = Path.Combine(env.WebRootPath, options.ThumbnailsBaseDirectory);
             var webVersionDirectory = Path.Combine(env.WebRootPath, options.WebImagesBaseDirectory);
 
+            Directory.CreateDirectory(uploadsDirectory);
+            Directory.CreateDirectory(thumbnailsDirectory);
+            Directory.CreateDirectory(webVersionDirectory);
+
             var hub = app.ApplicationServices.GetRequiredService<IFileSystemHub>();
 
             hub.Add(FileSystemKeys.Uploads, new FileSystem(uploadsDirectory));
