@@ -5,18 +5,14 @@
 
 @{
     Model.TabTitle = Model.PageTitle = "Photo";
-    Model.BackgroundImageUrl = Model.ImageUrl;
 }
+
+@if(!string.IsNullOrWhiteSpace(Model.Description))
+{
+    <h3>Description</h3>
+    <p>@Model.Description</p>
+}
+<h3>Taken at</h3>
+<time>@Model.TakenAt.ToString("MMM dd, yy HH:mm")</time>
 
 <img src="@Model.ImageUrl" />
-
-@section LeftPanel
-{
-    @if(!string.IsNullOrWhiteSpace(Model.Description))
-    {
-        <h3>Description</h3>
-        <p>@Model.Description</p>
-    }
-    <h3>Taken at</h3>
-    <time>@Model.TakenAt.ToString("MMM dd, yy HH:mm")</time>
-}

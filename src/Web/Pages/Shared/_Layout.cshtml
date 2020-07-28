@@ -16,25 +16,9 @@
     <link rel="stylesheet" type="text/css" href="~/styles/layout.css">
 </head>
 <body class="body">
-    @if(!string.IsNullOrWhiteSpace(Model.BackgroundImageUrl))
-    {
-        <div class="body__background-image" style="background-image: url(@Model.BackgroundImageUrl)"></div>
-    }
-    <header class="header">
-        <partial name="_Header"></partial>
-    </header>
-    <div class="body-container">
-        @if (IsSectionDefined("LeftPanel"))
-        {
-            <aside class="left-panel">
-                <section class="left-panel__content">
-                    @RenderSection("LeftPanel", required: false)
-                </section>
-            </aside>
-        }
-        <main class="main">
-            @RenderBody()
-        </main>
-    </div>
+    <partial name="_Header"></partial>
+    <main class="main">
+        @RenderBody()
+    </main>
 </body>
 </html>

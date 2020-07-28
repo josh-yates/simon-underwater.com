@@ -8,7 +8,6 @@ namespace Web.Pages.Shared
     {
         public string TabTitle { get; set; }
         public string PageTitle { get; set; }
-        public string BackgroundImageUrl { get; set; }
 
         protected IActionResult RedirectToHome()
         {

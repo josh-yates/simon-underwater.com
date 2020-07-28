@@ -2,26 +2,20 @@
 @using Web.Auth
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<User> signInManager
-<nav class="header__home-menu">
-    <a class="home-menu__link" href="/">Home</a>
-</nav>
-<nav class="header__main-menu">
-    <a class="main-menu__link" href="/photos">Photos</a>
+<header class="header">
+    <a class="header__home-link" href="/">Home</a>
+    <a class="header__link" href="/photos">Photos</a>
+    <hr class="header__separator" />
     @if (signInManager.IsSignedIn(Context.User))
     {
-        <span class="main-menu__hello-text">Hi, @User.FindFirst(Constants.FirstNameClaim).Value</span>
-        <div class="main-menu__actions-dropdown">
-            <span class="actions-dropdown__heading">Actions</span>
-            <div class="actions-dropdown__links">
-                <a class="actions-dropdown__link actions-dropdown__link--upload" href="/photos/upload">Upload photos</a>
-                <form class="actions-dropdown__logout-form" asp-controller="auth" asp-action="logout" method="POST">
-                    <button class="actions-dropdown__link actions-dropdown__link--logout" type="submit">Log out</button>
-                </form>
-            </div>
-        </div>
+        <span class="header__welcome-text">Hi, @User.FindFirst(Constants.FirstNameClaim).Value</span>
+        <a class="header__link href="/photos/upload">Upload photos</a>
+        <form class="header__logout-form" asp-controller="auth" asp-action="logout" method="POST">
+            <button class="header__link" type="submit">Log out</button>
+        </form>
     }
     else
     {
-        <a class="main-menu__link main-menu__link--login" href="/login">Log in</a>
+        <a class="header__link" href="/login">Log in</a>
     }
-</nav>
+</header>

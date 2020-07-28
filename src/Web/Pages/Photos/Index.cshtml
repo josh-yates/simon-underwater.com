@@ -5,6 +5,19 @@
     Model.TabTitle = Model.PageTitle = "Photos";
 }
 
+<form class="left-panel-form" asp-page="/photos" method="GET">
+    @if(Model.DatePickerMin.HasValue && Model.DatePickerMax.HasValue)
+    {
+        <input class="form__item" type="date" asp-for="F" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
+        <input class="form__item" type="date" asp-for="T" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
+    }
+    <input class="form__item" type="search" asp-for="S"/>
+    <div class="form__item--bottom form__horizontal-container">
+        <a class="button button-secondary form__item" href="/photos">Clear</a>
+        <button class="button button--primary form__item" type="submit">Search</button>
+    </div>
+</form>
+
 @if(Model.Images.Any())
 {
     @foreach(var image in Model.Images)
@@ -26,20 +39,4 @@
 else
 {
     <p>There are no photos to show :(</p>
-}
-
-@section LeftPanel
-{
-    <form class="left-panel-form" asp-page="/photos" method="GET">
-    @if(Model.DatePickerMin.HasValue && Model.DatePickerMax.HasValue)
-    {
-        <input class="form__item" type="date" asp-for="F" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
-        <input class="form__item" type="date" asp-for="T" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
-    }
-        <input class="form__item" type="search" asp-for="S"/>
-        <div class="form__item--bottom form__horizontal-container">
-            <a class="button button-secondary form__item" href="/photos">Clear</a>
-            <button class="button button--primary form__item" type="submit">Search</button>
-        </div>
-    </form>
 }
