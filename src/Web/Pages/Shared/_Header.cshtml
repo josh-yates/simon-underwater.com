@@ -9,7 +9,7 @@
     @if (signInManager.IsSignedIn(Context.User))
     {
         <span class="header__welcome-text">Hi, @User.FindFirst(Constants.FirstNameClaim).Value</span>
-        <a class="header__link href="/photos/upload">Upload photos</a>
+        <a class="header__link" href="/photos/upload">Upload photos</a>
         <form class="header__logout-form" asp-controller="auth" asp-action="logout" method="POST">
             <button class="header__link" type="submit">Log out</button>
         </form>
