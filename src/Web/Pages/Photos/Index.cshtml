@@ -1,42 +1,46 @@
 @page
 @model IndexModel
 
+@section Styles {
+    <link rel="stylesheet" type="text/css" href="~/pages/Photos/Photos.css">
+}
+
 @{
     Model.TabTitle = Model.PageTitle = "Photos";
 }
 
-<form class="left-panel-form" asp-page="/photos" method="GET">
+<form class="filters-form" asp-page="/photos" method="GET">
     @if(Model.DatePickerMin.HasValue && Model.DatePickerMax.HasValue)
     {
         <input class="form__item" type="date" asp-for="F" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
         <input class="form__item" type="date" asp-for="T" min="@Model.DatePickerMin.Value.ToString("yyyy-MM-dd")" max="@Model.DatePickerMax.Value.ToString("yyyy-MM-dd")" />
     }
     <input class="form__item" type="search" asp-for="S"/>
-    <div class="form__item--bottom form__horizontal-container">
-        <a class="button button-secondary form__item" href="/photos">Clear</a>
-        <button class="button button--primary form__item" type="submit">Search</button>
-    </div>
+    <a class="button button-secondary form__item" href="/photos">Clear</a>
+    <button class="button button--primary form__item" type="submit">Search</button>
 </form>
-
+<div class="photo-listing-container">
 @if(Model.Images.Any())
 {
+    @if(Model.Images.HasPreviousPage)
+    {
+        <a class="listing-page-link listing-page-link--left" asp-route-p="@(Model.Images.PageIndex - 1)" asp-route-S="@Model.S">Previous</a>
+    }
+    <div class="photo-listing">
     @foreach(var image in Model.Images)
     {
-        <a asp-page="/photo/index" asp-route-id="@image.Id">
+        <a class="listing__photo" asp-page="/photo/index" asp-route-id="@image.Id">
             <img src="@Model._imageService.GetImageUrl(image, true)" />
         </a>
     }
-    @if(Model.Images.HasPreviousPage)
-    {
-        <a asp-route-p="@(Model.Images.PageIndex - 1)" asp-route-S="@Model.S">Previous</a>
-    }
-    <p>Page @Model.Images.PageIndex of @Model.Images.TotalPages</p>
+    </div>
     @if(Model.Images.HasNextPage)
     {
-        <a asp-route-p="@(Model.Images.PageIndex + 1)" asp-route-S="@Model.S">Next</a>
+        <a class="listing-page-link listing-page-link--right" asp-route-p="@(Model.Images.PageIndex + 1)" asp-route-S="@Model.S">Next</a>
     }
 }
 else
 {
     <p>There are no photos to show :(</p>
 }
+</div>
