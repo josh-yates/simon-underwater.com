@@ -45,3 +45,9 @@ msbuild.wrn
 [Uu]ploads/
 # Visual Studio 2015
 .vs/
+
+# Statiq
+
+input/
+output/
+temp/
