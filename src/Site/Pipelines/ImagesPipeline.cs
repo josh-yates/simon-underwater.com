@@ -22,6 +22,8 @@ namespace Site.Pipelines
             {
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
+                    .And()
+                    .Operation(CustomResizeOperation.Apply)
             };
 
             OutputModules = new ModuleList
