@@ -8,12 +8,10 @@ namespace Site.Operations
 {
     public static class CustomResizeOperation
     {
-        public static IImageProcessingContext<Rgba32> Apply(IImageProcessingContext<Rgba32> image)
+        public static IImageProcessingContext<Rgba32> Apply(IImageProcessingContext<Rgba32> image, long fileSize)
         {
             Size imgSize = image.GetCurrentSize();
-            var scalingFactor = Math.Max(imgSize.Height, imgSize.Width) / 1000F;
-
-            Console.WriteLine($"width: ${imgSize.Width}, Height: ${imgSize.Height}, scalingFactor: ${scalingFactor}");
+            var scalingFactor = fileSize / 1000000F;
 
             if (scalingFactor <= 1)
             {
