@@ -13,8 +13,6 @@ namespace Site.Operations
             Size imgSize = image.GetCurrentSize();
             var scalingFactor = Math.Max(imgSize.Height, imgSize.Width) / 1000F;
 
-            Console.WriteLine($"width: ${imgSize.Width}, Height: ${imgSize.Height}, scalingFactor: ${scalingFactor}");
-
             if (scalingFactor <= 1)
             {
                 return image;

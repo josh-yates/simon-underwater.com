@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Threading.Tasks;
+using Site.Modules;
 using Site.Operations;
 using Statiq.Common;
 using Statiq.Core;
@@ -20,9 +21,12 @@ namespace Site.Pipelines
 
             ProcessModules = new ModuleList
             {
+                new ReadImageData(),
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
-                    .Operation(CustomResizeOperation.Apply)
+                    .Operation(CustomResizeOperation.Apply),
+                new OrderDocuments(Config.FromDocument(d => d.GetDateTime(ImageDataKeys.TakenAt)))
+                    .Descending()
             };
 
             OutputModules = new ModuleList
