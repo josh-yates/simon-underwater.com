@@ -48,6 +48,6 @@ msbuild.wrn
 
 # Statiq
 
-input/
+src/Site/input/images/
 output/
 temp/

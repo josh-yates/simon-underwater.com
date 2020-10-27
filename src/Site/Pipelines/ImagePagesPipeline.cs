@@ -15,14 +15,15 @@ namespace Site.Pipelines
             {
                 new ConcatDocuments(nameof(ImagesPipeline)),
                 new SetContent(Config.FromContext(async ctx =>
-                    await ctx.FileSystem.GetInputFile("image.cshtml").ReadAllTextAsync())),
+                    await ctx.FileSystem.GetInputFile("razor/image.cshtml").ReadAllTextAsync())),
                 new RenderRazor()
+                    .WithLayout("/razor/_Layout.cshtml")
                     .WithModel(Config.FromDocument(d => new ImagePage
                     {
                         Src = d.Destination.ToString(),
                         TakenAt = d.GetDateTime(ImageDataKeys.TakenAt)
                     })),
-                new SetDestination(".html")
+                new SetDestination(Config.FromDocument(d => new NormalizedPath(d.Source.FileNameWithoutExtension + ".html")))
             };
 
             OutputModules = new ModuleList

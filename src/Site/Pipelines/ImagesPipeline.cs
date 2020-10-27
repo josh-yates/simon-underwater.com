@@ -18,7 +18,7 @@ namespace Site.Pipelines
             var exts = new[] { ".JPG", ".JPEG", ".PNG", ".TIFF" };
             InputModules = new ModuleList
             {
-                new ReadFiles("*")
+                new ReadFiles("images/*")
                     .Where(x => Task.FromResult(exts.Contains(x.Path.Extension.ToUpper())))
             };
 
@@ -44,9 +44,7 @@ namespace Site.Pipelines
                 })),
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
-                    .Operation(CustomResizeOperation.Apply),
-                new OrderDocuments(Config.FromDocument(d => d.GetDateTime(ImageDataKeys.TakenAt)))
-                    .Descending()
+                    .Operation(CustomResizeOperation.Apply)
             };
 
             OutputModules = new ModuleList

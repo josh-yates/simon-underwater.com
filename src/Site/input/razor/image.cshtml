@@ -1,0 +1,5 @@
+@using Statiq.Razor
+@using Site.Models
+@inherits StatiqRazorPage<ImagePage>
+<img src="/@(Model.Src)" />
+<p>@Model.TakenAt</p>
