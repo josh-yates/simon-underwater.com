@@ -1,7 +1,10 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Site.Modules;
+using Site.Keys;
 using Site.Operations;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.MetaData.Profiles.Exif;
 using Statiq.Common;
 using Statiq.Core;
 using Statiq.Images;
@@ -21,7 +24,24 @@ namespace Site.Pipelines
 
             ProcessModules = new ModuleList
             {
-                new ReadImageData(),
+                new SetMetadata(ImageDataKeys.TakenAt, Config.FromDocument(d =>
+                {
+                    using var stream = d.GetContentStream();
+                    var image = Image.Load(stream, out var format);
+
+                    var exifDateFormatted = string.Join(' ',
+                        image
+                            .MetaData
+                            .ExifProfile
+                            .GetValue(ExifTag.DateTime)
+                            .ToString()
+                            .Split(' ')
+                            .Select((s, i) => i == 0 ?
+                                s.Replace(':', '/') :
+                                s));
+
+                    return DateTime.TryParse(exifDateFormatted, out var parsed) ? parsed : default;
+                })),
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
                     .Operation(CustomResizeOperation.Apply),

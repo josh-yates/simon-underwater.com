@@ -1,4 +1,5 @@
-using Site.Modules;
+using Site.Keys;
+using Site.Models;
 using Statiq.Common;
 using Statiq.Core;
 using Statiq.Razor;
@@ -10,23 +11,18 @@ namespace Site.Pipelines
         public ImagePagesPipeline()
         {
             Dependencies.Add(nameof(ImagesPipeline));
-
-            InputModules = new ModuleList
-            {
-                new ReadFiles("image.cshtml")
-            };
-
             ProcessModules = new ModuleList
             {
-                new MergeMetadata(nameof(ImagesPipeline)),
-                new SetDestination(".html"),
+                new ConcatDocuments(nameof(ImagesPipeline)),
+                new SetContent(Config.FromContext(async ctx =>
+                    await ctx.FileSystem.GetInputFile("image.cshtml").ReadAllTextAsync())),
                 new RenderRazor()
-                    .WithModel(Config.FromDocument(d => new
+                    .WithModel(Config.FromDocument(d => new ImagePage
                     {
-                        src = d.GetString(ImageDataKeys.Destination),
-                        takenAt = d.GetDateTime(ImageDataKeys.TakenAt)
-                    }))
-                    .WithLayout("layout.cshmtl")
+                        Src = d.Destination.ToString(),
+                        TakenAt = d.GetDateTime(ImageDataKeys.TakenAt)
+                    })),
+                new SetDestination(".html")
             };
 
             OutputModules = new ModuleList
