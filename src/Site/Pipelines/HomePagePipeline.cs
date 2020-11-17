@@ -37,7 +37,7 @@ namespace Site.Pipelines
                             .Take(10)
                             .Select(i => new HomePage.Image
                             {
-                                Href = $"/{i.FileName}.html",
+                                Href = $"/{i.FileName}",
                                 Src = $"/images/{i.FileName}{i.ImgExtension}"
                             })
                             .ToList()

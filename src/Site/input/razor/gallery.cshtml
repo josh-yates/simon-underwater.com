@@ -1,0 +1,20 @@
+@using Statiq.Razor
+@using Site.Models
+@inherits StatiqRazorPage<GalleryPage>
+
+    @foreach (var item in Model.Images)
+    {
+        <a href="@item.Href">
+            <img src="@item.Src" />
+        </a>
+    }
+
+    @if(Model.PrevHref != null)
+    {
+        <a href="@Model.PrevHref">@(Model.Index - 1)</a>
+    }
+    <p>@Model.Index</p>
+    @if(Model.NextHref != null)
+    {
+        <a href="@Model.NextHref">@(Model.Index + 1)</a>
+    }
