@@ -23,7 +23,7 @@ namespace Site.Pipelines
                         Src = d.Destination.ToString(),
                         TakenAt = d.GetDateTime(ImageDataKeys.TakenAt)
                     })),
-                new SetDestination(Config.FromDocument(d => new NormalizedPath($"{d.Source.FileNameWithoutExtension}/index.html")))
+                new SetDestination(Config.FromDocument(d => new NormalizedPath($"{d.Destination.FileNameWithoutExtension}/index.html")))
             };
 
             OutputModules = new ModuleList

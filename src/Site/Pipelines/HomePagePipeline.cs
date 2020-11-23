@@ -30,8 +30,8 @@ namespace Site.Pipelines
                             .Select(d => new
                             {
                                 TakenAt = d.GetDateTime(ImageDataKeys.TakenAt),
-                                FileName = d.Source.FileNameWithoutExtension,
-                                ImgExtension = d.Source.Extension
+                                FileName = d.Destination.FileNameWithoutExtension,
+                                ImgExtension = d.Destination.Extension
                             })
                             .OrderByDescending(d => d.TakenAt)
                             .Take(10)

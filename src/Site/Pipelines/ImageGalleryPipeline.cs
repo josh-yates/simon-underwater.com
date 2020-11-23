@@ -34,8 +34,8 @@ namespace Site.Pipelines
                             Images = d.GetDocuments(Statiq.Common.Keys.Children)
                                 .Select(d => new GalleryPage.Image
                                 {
-                                    Href = $"/{d.Source.FileNameWithoutExtension}",
-                                    Src = $"/images/{d.Source.FileNameWithoutExtension}{d.Source.Extension}"
+                                    Href = $"/{d.Destination.FileNameWithoutExtension}",
+                                    Src = $"/images/{d.Destination.FileNameWithoutExtension}{d.Destination.Extension}"
                                 })
                                 .ToList(),
                             Index = index,

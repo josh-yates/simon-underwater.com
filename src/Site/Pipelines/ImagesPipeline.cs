@@ -1,5 +1,8 @@
 using System;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using Site.Keys;
 using Site.Operations;
@@ -16,6 +19,9 @@ namespace Site.Pipelines
         public ImagesPipeline()
         {
             var exts = new[] { ".JPG", ".JPEG", ".PNG", ".TIFF" };
+            var md5 = MD5.Create();
+            md5.Initialize();
+
             InputModules = new ModuleList
             {
                 new ReadFiles("images/*")
@@ -27,6 +33,7 @@ namespace Site.Pipelines
                 new SetMetadata(ImageDataKeys.TakenAt, Config.FromDocument(d =>
                 {
                     using var stream = d.GetContentStream();
+
                     var image = Image.Load(stream, out var format);
 
                     var exifDateFormatted = string.Join(' ',
@@ -44,13 +51,38 @@ namespace Site.Pipelines
                 })),
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
-                    .Operation(CustomResizeOperation.Apply)
+                    .Operation(CustomResizeOperation.Apply),
+                new SetDestination(Config.FromDocument(d =>
+                {
+                    using var imageStream = d.GetContentStream();
+                    using var memStream = new MemoryStream();
+                    
+                    imageStream.CopyTo(memStream);
+                    var bytes = memStream.ToArray();
+
+                    var hash = md5.ComputeHash(bytes);
+
+                    return new NormalizedPath($"images/{hash.ToHex(true)}{d.Source.Extension}");
+                }))
             };
 
             OutputModules = new ModuleList
             {
                 new WriteFiles()
             };
+        }
+    }
+
+    public static class ImagesPipelineExtensions
+    {
+        public static string ToHex(this byte[] bytes, bool upperCase)
+        {
+            var result = new StringBuilder(bytes.Length*2);
+
+            for (int i = 0; i < bytes.Length; i++)
+                result.Append(bytes[i].ToString(upperCase ? "X2" : "x2"));
+
+            return result.ToString();
         }
     }
 }
