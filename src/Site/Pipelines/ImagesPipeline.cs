@@ -51,19 +51,7 @@ namespace Site.Pipelines
                 })),
                 new MutateImage()
                     .Operation(WatermarkOperation.Apply)
-                    .Operation(CustomResizeOperation.Apply),
-                new SetDestination(Config.FromDocument(d =>
-                {
-                    using var imageStream = d.GetContentStream();
-                    using var memStream = new MemoryStream();
-                    
-                    imageStream.CopyTo(memStream);
-                    var bytes = memStream.ToArray();
-
-                    var hash = md5.ComputeHash(bytes);
-
-                    return new NormalizedPath($"images/{hash.ToHex(true)}{d.Source.Extension}");
-                }))
+                    .Operation(CustomResizeOperation.Apply)
             };
 
             OutputModules = new ModuleList
