@@ -1,6 +1,9 @@
+@using Site.Keys
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <link rel="stylesheet" href="styles/main.@(RazorKeys.CssBuildId).css">
+    </head>
     <body>
         @RenderBody()
     </body>
