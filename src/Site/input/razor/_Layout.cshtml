@@ -2,9 +2,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="styles/main.@(RazorKeys.CssBuildId).css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla">
+        <link rel="stylesheet" href="/styles/main.@(RazorKeys.CssBuildId).css">
     </head>
-    <body>
-        @RenderBody()
+    <body class="body">
+        <nav class="left-nav">
+            <a class="icon-link" href="/">Home</a>
+            <a class="nav-link" href="/">Home</a>
+            <a class="nav-link" href="/photos/1">Photos</a>
+        </nav>
+        <main class="right-main">
+            @RenderBody()
+        </main>
     </body>
 </html>

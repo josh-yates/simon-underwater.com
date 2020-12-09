@@ -16,16 +16,25 @@ $button-secondary-color: $orange-yellow-crayola;
     padding: 1rem;
     border-radius: $button-border-radius;
     border-width: $button-border-width;
+    text-decoration: none;
 
     &--primary {
         border-color: $button-primary-border-color;
         background-color: $button-primary-background-color;
         color: $button-primary-color;
+
+        &:visited {
+            color: $button-primary-color;
+        }
     }
 
     &--secondary {
         border-color: $button-secondary-border-color;
         background-color: $button-secondary-background-color;
-        color: $button-secondary-background-color;
+        color: $button-secondary-color;
+
+        &:visited {
+            color: $button-secondary-color
+        }
     }
 }
