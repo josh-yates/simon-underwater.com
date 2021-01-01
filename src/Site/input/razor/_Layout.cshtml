@@ -6,11 +6,15 @@
         <link rel="stylesheet" href="/styles/main.@(RazorKeys.CssBuildId).css">
     </head>
     <body class="body">
-        <nav class="left-nav">
-            <a class="icon-link" href="/">Home</a>
-            <a class="nav-link" href="/">Home</a>
-            <a class="nav-link" href="/photos/1">Photos</a>
-        </nav>
+        <header class="left-nav">
+            <a class="nav-icon-link" href="/">Home</a>
+            <div class="nav-hover-panel">
+                <nav>
+                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/photos/1">Photos</a>
+                </nav>
+            </div>
+        </header>
         <main class="right-main">
             @RenderBody()
         </main>

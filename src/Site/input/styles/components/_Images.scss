@@ -1,0 +1,24 @@
+@import '../core/Design';
+
+.image {
+    border-radius: $image__border-radius;
+    box-shadow: $image__shadow;
+}
+
+.home-gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 2rem;
+
+    .image-link {
+        height: 16rem;
+        border-radius: $image__border-radius;
+    }
+
+    .image {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}

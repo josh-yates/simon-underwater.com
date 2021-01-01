@@ -2,17 +2,11 @@
 @using Site.Models
 @inherits StatiqRazorPage<HomePage>
 
-<article class="home-intro">
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent tristique sapien quis enim tempus, vel lacinia leo eleifend. Aliquam erat volutpat. Vivamus pulvinar id enim eu gravida. Nullam euismod enim et urna rhoncus efficitur. Aenean id elementum mauris, in viverra elit. Duis posuere eros non iaculis iaculis. Mauris ut elementum ipsum. Suspendisse potenti. Maecenas eget facilisis justo. Nam et odio congue, rhoncus nulla non, sagittis ante. Etiam pharetra porta tristique.
-
-    Sed eu massa pellentesque, pretium erat auctor, consequat quam. Nunc sit amet massa metus. Praesent a est luctus, aliquet purus vel, consequat ipsum. Ut commodo accumsan leo, id pellentesque ante lobortis ut. Morbi sit amet lorem vitae lorem consectetur sagittis ac id turpis. Maecenas dapibus porttitor cursus. Proin iaculis iaculis ultrices. Sed et varius dui. Ut in nisl massa. Donec faucibus eros nisl, nec viverra justo finibus in. Morbi dapibus ipsum in turpis sagittis commodo. Aliquam erat volutpat. Cras a ligula elit. Vestibulum sodales dapibus tortor a accumsan. 
-</article>
-<aside class="home-gallery-grid">
+<aside class="home-gallery-grid home-gallery-grid--@(Model.Images.Count)">
     @foreach (var item in Model.Images)
     {
-        <a href="@item.Href">
-            <img src="@item.Src" />
+        <a class="image-link" href="@item.Href">
+            <img class="image" src="@item.Src" />
         </a>
     }
-    <a class="button button--primary" href="photos/1">See more</a>
 </aside>
