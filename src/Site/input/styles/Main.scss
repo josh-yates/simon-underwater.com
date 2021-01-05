@@ -4,18 +4,23 @@
 @import './core/Design';
 @import './components/Buttons';
 @import './components/Images';
+@import './components/Links';
 
 .body {
     background-color: $charcoal;
     margin: 0;
     padding: 0;
-    width: 100vw;
+    width: auto;
     height: 100vh;
     color: $alice-blue;
     display: grid;
     font-family: $font-family;
     font-size: $font-size--standard;
     grid-template-columns: minmax(300px, 20%) 1fr;
+
+    @include for-mobile-and-down {
+        display: block;
+    }
 }
 
 .left-nav {
@@ -30,20 +35,86 @@
     padding: $standard-padding;
 }
 
-.nav-icon-link {
-    height: $header-height;
-    flex-grow: 0;
-    flex-shrink: 0;
-}
-
 .nav-hover-panel {
-    padding: $standard-padding;
+    padding: $standard-padding 0;
     flex-grow: 1;
     flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     border-right: $hover-panel__border;
-    border-top: $hover-panel__border;
-    border-top-right-radius: $hover-panel__border-radius;
-    box-shadow: (-$hover-panel__shadow-offset) $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
+    box-shadow: $hover-panel__shadow-offset 0 $hover-panel__shadow-blur $hover-panel__shadow-color,
                 $hover-panel__shadow-offset $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
                 $hover-panel__shadow-offset (-$hover-panel__shadow-offset) $hover-panel__shadow-blur $hover-panel__shadow-color;
+
+    @include for-mobile-and-down {
+        border-right: none;
+        border-bottom: $hover-panel__border;
+
+        box-shadow: 0 $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
+                    (-$hover-panel__shadow-offset) $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
+                    $hover-panel__shadow-offset $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color;
+    }
+}
+
+.nav-img-link {
+    width: #{5 * $standard-padding};
+    height: #{5 * $standard-padding};
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.nav-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: $standard-padding $standard-padding $standard-padding 0;
+    width: calc(100% - #{2 * $standard-padding});
+    border-bottom: $hover-panel__border;
+    margin-left: $standard-padding;
+
+    .nav-link {
+        &:not(:first-child) {
+            margin-top: 0.5rem;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 0.5rem;
+        }
+    }
+}
+
+.short-intro {
+    width: calc(100% - #{2 * $standard-padding});
+    padding: $standard-padding 0 $standard-padding $standard-padding;
+    border-bottom: $hover-panel__border;
+    margin: 0 $standard-padding 0 0;
+}
+
+.nav-sub-links {
+    margin-top: auto;
+    padding-top: $standard-padding;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    .nav-sub-link {
+        &:not(:first-child) {
+            margin-top: 0.25rem;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 0.25rem;
+        }
+    }
 }

@@ -17,3 +17,14 @@ $hover-panel__shadow-color: rgba(0,0,0,0.2);
 
 $image__border-radius: 1rem;
 $image__shadow: 0 -0.2rem 0.5rem rgba(0,0,0,0.1);
+
+// Links
+
+$nav-link__color: $alice-blue;
+$text-link__color: $orange-yellow-crayola;
+
+// Breakpoints
+
+@mixin for-mobile-and-down {
+    @media (max-width: 768px) { @content; }
+}
