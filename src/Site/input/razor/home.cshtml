@@ -3,10 +3,12 @@
 @inherits StatiqRazorPage<HomePage>
 
 <aside class="home-gallery-grid home-gallery-grid--@(Model.Images.Count)">
+    @{int i = 1;}
     @foreach (var item in Model.Images)
     {
-        <a class="image-link" href="@item.Href">
+        <a class="image-link grid-image--@(i)" href="@item.Href">
             <img class="image" src="@item.Src" />
         </a>
+        i++;
     }
 </aside>
