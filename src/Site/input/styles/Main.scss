@@ -61,7 +61,7 @@
 .nav-img-link {
     width: #{5 * $standard-padding};
     height: #{5 * $standard-padding};
-    border-radius: 50%;
+    border-radius: $image__border-radius;
     overflow: hidden;
 }
 
@@ -74,7 +74,7 @@
 .nav-links {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     padding: $standard-padding $standard-padding $standard-padding 0;
     width: calc(100% - #{2 * $standard-padding});
@@ -82,6 +82,7 @@
     margin-left: $standard-padding;
 
     .nav-link {
+        width: 100%;
         &:not(:first-child) {
             margin-top: 0.5rem;
         }
@@ -92,11 +93,15 @@
     }
 }
 
-.short-intro {
-    width: calc(100% - #{2 * $standard-padding});
-    padding: $standard-padding 0 $standard-padding $standard-padding;
-    border-bottom: $hover-panel__border;
+.nav-title {
+    font-size: 3rem;
     margin: 0 $standard-padding 0 0;
+    padding: $standard-padding 0 $standard-padding $standard-padding;
+    width: calc(100% - #{2 * $standard-padding});
+    border-bottom: $hover-panel__border;
+    text-align: center;
+    color: $alice-blue;
+    font-weight: bold;
 }
 
 .nav-sub-links {

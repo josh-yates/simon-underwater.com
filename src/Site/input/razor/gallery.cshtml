@@ -9,12 +9,14 @@
         </a>
     }
 
-    @if(Model.PrevHref != null)
-    {
-        <a href="@Model.PrevHref">@(Model.Index - 1)</a>
-    }
-    <p>@Model.Index</p>
-    @if(Model.NextHref != null)
-    {
-        <a href="@Model.NextHref">@(Model.Index + 1)</a>
-    }
+    <nav class="pager-bar">
+        @if(Model.PrevHref != null)
+        {
+            <a class="pager-link pager-link--prev" href="@Model.PrevHref">@(Model.Index - 1)</a>
+        }
+        <span class="pager-label">Page @Model.Index</span>
+        @if(Model.NextHref != null)
+        {
+            <a class="pager-link pager-link--prev" href="@Model.NextHref">@(Model.Index + 1)</a>
+        }
+    </nav>
