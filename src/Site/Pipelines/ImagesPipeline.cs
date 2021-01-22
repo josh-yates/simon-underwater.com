@@ -36,6 +36,11 @@ namespace Site.Pipelines
 
                     var image = Image.Load(stream, out var format);
 
+                    if (image.MetaData == null || image.MetaData.ExifProfile == null)
+                    {
+                        return default;
+                    }
+
                     var exifDateFormatted = string.Join(' ',
                         image
                             .MetaData
@@ -65,7 +70,7 @@ namespace Site.Pipelines
     {
         public static string ToHex(this byte[] bytes, bool upperCase)
         {
-            var result = new StringBuilder(bytes.Length*2);
+            var result = new StringBuilder(bytes.Length * 2);
 
             for (int i = 0; i < bytes.Length; i++)
                 result.Append(bytes[i].ToString(upperCase ? "X2" : "x2"));
