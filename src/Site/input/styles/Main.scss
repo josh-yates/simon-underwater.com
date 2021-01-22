@@ -13,10 +13,10 @@
     width: auto;
     height: 100vh;
     color: $alice-blue;
-    display: grid;
+    display: flex;
     font-family: $font-family;
     font-size: $font-size--standard;
-    grid-template-columns: minmax(300px, 20%) 1fr;
+    align-items: stretch;
 
     @include for-mobile-and-down {
         display: block;
@@ -24,22 +24,13 @@
 }
 
 .left-nav {
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-}
-
-.right-main {
-    overflow-y: auto;
-    padding: $standard-padding;
-}
-
-.nav-hover-panel {
+    width: 300px;
     padding: $standard-padding 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
@@ -56,6 +47,16 @@
                     (-$hover-panel__shadow-offset) $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
                     $hover-panel__shadow-offset $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color;
     }
+    
+    @include for-mobile-and-down {
+        width: 100%;
+    }
+}
+
+.right-main {
+    flex: 1;
+    overflow-y: auto;
+    padding: $standard-padding;
 }
 
 .nav-img-link {
@@ -63,6 +64,8 @@
     height: #{5 * $standard-padding};
     border-radius: $image__border-radius;
     overflow: hidden;
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .nav-img {
