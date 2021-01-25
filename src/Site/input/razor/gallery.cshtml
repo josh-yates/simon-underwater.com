@@ -2,21 +2,23 @@
 @using Site.Models
 @inherits StatiqRazorPage<GalleryPage>
 
+<section class="home-gallery-grid">
     @foreach (var item in Model.Images)
     {
-        <a href="@item.Href">
-            <img src="@item.Src" />
+        <a class="image-link" href="@item.Href">
+            <img class="image" src="@item.Src" />
         </a>
     }
+</section>
 
-    <nav class="pager-bar">
-        @if(Model.PrevHref != null)
-        {
-            <a class="pager-link pager-link--prev" href="@Model.PrevHref">@(Model.Index - 1)</a>
-        }
-        <span class="pager-label">Page @Model.Index</span>
-        @if(Model.NextHref != null)
-        {
-            <a class="pager-link pager-link--prev" href="@Model.NextHref">@(Model.Index + 1)</a>
-        }
-    </nav>
+<nav class="pager-bar">
+    @if (Model.PrevHref != null)
+    {
+        <a class="pager-link pager-link--prev" href="@Model.PrevHref">@(Model.Index - 1)</a>
+    }
+    <span class="pager-label">Page @Model.Index</span>
+    @if (Model.NextHref != null)
+    {
+        <a class="pager-link pager-link--prev" href="@Model.NextHref">@(Model.Index + 1)</a>
+    }
+</nav>

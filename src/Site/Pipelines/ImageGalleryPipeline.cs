@@ -19,7 +19,7 @@ namespace Site.Pipelines
                 new SetContent(Config.FromValue(string.Empty)),
                 new OrderDocuments(Config.FromDocument(d => d.GetDateTime(ImageDataKeys.TakenAt)))
                     .Descending(),
-                new PaginateDocuments(10),
+                new PaginateDocuments(24),
                 new SetContent(Config.FromContext(async ctx =>
                     await ctx.FileSystem.GetInputFile("razor/gallery.cshtml").ReadAllTextAsync())),
                 new RenderRazor()
