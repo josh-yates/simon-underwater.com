@@ -1,14 +1,13 @@
 @using Statiq.Razor
 @using Site.Models
 @inherits StatiqRazorPage<HomePage>
-
-<aside class="home-gallery-grid home-gallery-grid--@(Model.Images.Count)">
-    @{int i = 1;}
+<h2 class="section-title">Recent images</h2>
+<section class="home-gallery-grid">
     @foreach (var item in Model.Images)
     {
-        <a class="image-link grid-image--@(i)" href="@item.Href">
+        <a class="image-link" href="@item.Href">
             <img class="image" src="@item.Src" />
         </a>
-        i++;
     }
-</aside>
+    <a class="text-link home-gallery-grid__more-link" href="/photos/1">See more</a>
+</section>

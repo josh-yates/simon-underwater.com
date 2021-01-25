@@ -34,7 +34,7 @@ namespace Site.Pipelines
                                 ImgExtension = d.Destination.Extension
                             })
                             .OrderByDescending(d => d.TakenAt)
-                            .Take(10)
+                            .Take(11)
                             .Select(i => new HomePage.Image
                             {
                                 Href = $"/{i.FileName}",
