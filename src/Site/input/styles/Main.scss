@@ -127,3 +127,19 @@
         }
     }
 }
+
+.pager-bar {
+    border-top: $hover-panel__border;
+    border-right: $hover-panel__border;
+    border-left: $hover-panel__border;
+    border-top-left-radius: $hover-panel__border-radius;
+    border-top-right-radius: $hover-panel__border-radius;
+    background-color: $charcoal;
+    height: $pager-bar__height;
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    bottom: #{-1 * $standard-padding};
+}
