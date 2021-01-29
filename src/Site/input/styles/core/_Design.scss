@@ -1,29 +1,14 @@
 @import 'Colors';
 
-// Layout
+// Standards
 
-$header-height: 8rem;
-$standard-padding: 2rem;
-
-// Hover panels
-
-$hover-panel__border: 4px solid $persian-green;
-$hover-panel__border-radius: 2rem;
-$hover-panel__shadow-blur: 4rem;
-$hover-panel__shadow-offset: 0.5rem;
-$hover-panel__shadow-color: rgba(0,0,0,0.2);
-
-$pager-bar__height: 4rem;
-
-// Images
-
-$image__border-radius: 1rem;
-$image__shadow: 0 -0.2rem 0.5rem rgba(0,0,0,0.1);
-
-// Links
-
-$nav-link__color: $alice-blue;
-$text-link__color: $orange-yellow-crayola;
+$std-padding: 2rem;
+$std-background-color: $rich-black;
+$std-text-color: $pale-purple-pantone;
+$std-border-radius: 2rem;
+$std-link-color: $arylide-yellow;
+$std-font-family: Karla, sans-serif;
+$std-font-size: 1rem;
 
 // Breakpoints
 

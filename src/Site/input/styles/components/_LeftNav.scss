@@ -1,0 +1,48 @@
+@import '../core/Design';
+
+.left-nav {
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    width: 300px;
+    padding: $std-padding 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    
+    @include for-mobile-and-down {
+        width: 100%;
+    }
+}
+
+.left-nav__logo {
+    .logo__link {
+        .link__img {
+
+        }
+    }
+}
+
+.left-nav__title {
+    .title__link {
+
+    }
+}
+
+.left-nav__nav-links {
+    .nav-links__link {
+
+    }
+}
+
+.left-nav__footer {
+    .footer__link {
+
+    }
+
+    .footer__description {
+        
+    }
+}

@@ -3,18 +3,27 @@
 .nav-link {
     text-decoration: none;
     font-size: 1.5rem;
-    color: $nav-link__color;
+    color: $std-link-color;
 
     &:visited {
-        color: $nav-link__color;
+        color: $std-link-color;
     }
 }
 
 .text-link {
     text-decoration: none;
-    color: $text-link__color;
+    color: $std-link-color;
 
     &:visited {
-        color: $text-link__color;
+        color: $std-link-color;
+    }
+}
+
+.title-link {
+    text-decoration: none;
+    color: $std-text-color;
+
+    &:visited {
+        color: $std-text-color;
     }
 }

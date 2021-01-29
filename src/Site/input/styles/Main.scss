@@ -1,22 +1,19 @@
 @import './core/Normalize';
-@import './core/Font';
-@import './core/Colors';
 @import './core/Design';
-@import './components/Buttons';
 @import './components/Images';
 @import './components/Links';
-@import './components/Text';
+@import './components/LeftNav';
 
 .body {
-    background-color: $charcoal;
+    background-color: $std-background-color;
     margin: 0;
     padding: 0;
     width: auto;
     height: 100vh;
-    color: $alice-blue;
+    color: $std-text-color;
     display: flex;
-    font-family: $font-family;
-    font-size: $font-size--standard;
+    font-family: $std-font-family;
+    font-size: $std-font-size;
     align-items: stretch;
 
     @include for-mobile-and-down {
@@ -24,46 +21,16 @@
     }
 }
 
-.left-nav {
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
-    width: 300px;
-    padding: $standard-padding 0;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    border-right: $hover-panel__border;
-    box-shadow: $hover-panel__shadow-offset 0 $hover-panel__shadow-blur $hover-panel__shadow-color,
-                $hover-panel__shadow-offset $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
-                $hover-panel__shadow-offset (-$hover-panel__shadow-offset) $hover-panel__shadow-blur $hover-panel__shadow-color;
-
-    @include for-mobile-and-down {
-        border-right: none;
-        border-bottom: $hover-panel__border;
-
-        box-shadow: 0 $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
-                    (-$hover-panel__shadow-offset) $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color,
-                    $hover-panel__shadow-offset $hover-panel__shadow-offset $hover-panel__shadow-blur $hover-panel__shadow-color;
-    }
-    
-    @include for-mobile-and-down {
-        width: 100%;
-    }
-}
-
 .right-main {
     flex: 1;
     overflow-y: auto;
-    padding: $standard-padding;
+    padding: $std-padding;
 }
 
 .nav-img-link {
-    width: #{5 * $standard-padding};
-    height: #{5 * $standard-padding};
-    border-radius: $image__border-radius;
+    width: #{5 * $std-padding};
+    height: #{5 * $std-padding};
+    border-radius: $std-border-radius;
     overflow: hidden;
     flex-shrink: 0;
     flex-grow: 0;
@@ -80,10 +47,8 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
-    padding: $standard-padding $standard-padding $standard-padding 0;
-    width: calc(100% - #{2 * $standard-padding});
-    border-bottom: $hover-panel__border;
-    margin-left: $standard-padding;
+    padding: $std-padding $std-padding $std-padding 0;
+    width: calc(100% - #{2 * $std-padding});
 
     .nav-link {
         width: 100%;
@@ -99,18 +64,17 @@
 
 .nav-title {
     font-size: 3rem;
-    margin: 0 $standard-padding 0 0;
-    padding: $standard-padding 0 $standard-padding $standard-padding;
-    width: calc(100% - #{2 * $standard-padding});
-    border-bottom: $hover-panel__border;
+    margin: 0 $std-padding 0 0;
+    padding: $std-padding 0 $std-padding $std-padding;
+    width: calc(100% - #{2 * $std-padding});
     text-align: center;
-    color: $alice-blue;
+    color: $std-text-color;
     font-weight: bold;
 }
 
 .nav-sub-links {
     margin-top: auto;
-    padding-top: $standard-padding;
+    padding-top: $std-padding;
     width: 100%;
     display: flex;
     flex-direction: column;
