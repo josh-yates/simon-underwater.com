@@ -10,6 +10,10 @@ $std-link-color: $arylide-yellow;
 $std-font-family: Karla, sans-serif;
 $std-font-size: 1rem;
 
+// Layout
+
+$left-nav-width: 20rem;
+
 // Breakpoints
 
 @mixin for-mobile-and-down {

@@ -1,29 +1,10 @@
 @import '../core/Design';
 
-.nav-link {
-    text-decoration: none;
-    font-size: 1.5rem;
-    color: $std-link-color;
-
-    &:visited {
-        color: $std-link-color;
-    }
-}
-
-.text-link {
+.link {
     text-decoration: none;
     color: $std-link-color;
 
     &:visited {
         color: $std-link-color;
-    }
-}
-
-.title-link {
-    text-decoration: none;
-    color: $std-text-color;
-
-    &:visited {
-        color: $std-text-color;
     }
 }
