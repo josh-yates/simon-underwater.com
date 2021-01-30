@@ -11,6 +11,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    background-image: url("/assets/header-background.JPG");
+    background-color: $std-background-color;
+    background-blend-mode: multiply;
+    background-size: cover;
+    background-repeat: no-repeat;
     
     @include for-mobile-and-down {
         width: auto;
