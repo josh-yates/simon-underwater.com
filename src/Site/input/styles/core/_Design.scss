@@ -9,6 +9,7 @@ $std-border-radius: 2rem;
 $std-link-color: $arylide-yellow;
 $std-font-family: Karla, sans-serif;
 $std-font-size: 1rem;
+$std-transition-time: 0.1s;
 
 // Layout
 
@@ -18,4 +19,16 @@ $left-nav-width: 20rem;
 
 @mixin for-mobile-and-down {
     @media (max-width: 768px) { @content; }
+}
+
+@mixin neumorphic {
+    box-shadow: -0.25rem 0.25rem 1rem darken($std-background-color, 5%),
+                        0.25rem -0.25rem 1rem lighten($std-background-color, 5%);
+    transition: transform $std-transition-time, box-shadow $std-transition-time;
+
+    &:active {
+        transform: translateY(0.2rem);
+        box-shadow: -0.125rem 0.125rem 0.5rem darken($std-background-color, 5%),
+                    0.125rem -0.125rem 0.5rem lighten($std-background-color, 5%);
+    }
 }
