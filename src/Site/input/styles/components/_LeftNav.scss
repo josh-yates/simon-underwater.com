@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    background-image: url("/assets/header-background.JPG");
+    background-image: url("/assets/header-background.png");
     background-color: $std-background-color;
     background-blend-mode: multiply;
     background-size: cover;
@@ -42,14 +42,22 @@
     
     .title__link {
         color: $std-text-color;
+        text-transform: uppercase;
         text-decoration: none;
-        font-weight: bold;
+        font-weight: lighter;
         font-size: 3rem;
         
         &:visited {
             color: $std-text-color;
         }
     }
+}
+
+.left-nav__description {
+    margin: #{$std-padding / 2} 0 0 0;
+    font-weight: lighter;
+    color: $std-text-color;
+    text-transform: uppercase;
 }
 
 .left-nav__nav-links {
@@ -63,7 +71,7 @@
     .nav-links__link {
         text-align: start;
         text-decoration: none;
-        font-size: 2rem;
+        font-size: 1.5rem;
 
         &:not(:first-child) {
             margin-top: #{$std-padding / 4};
