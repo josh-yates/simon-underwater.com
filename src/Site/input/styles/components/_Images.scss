@@ -11,13 +11,15 @@
         height: 20rem;
         overflow: hidden;
         box-shadow: -0.125rem 0.125rem 0.5rem darken($std-background-color, 5%);
+        transform: translate3d(0, 0, 0);
         transition: transform #{$std-transition-time * 2},
                     box-shadow #{$std-transition-time * 2};
+
 
         &:hover,
         &:focus,
         &:active {
-            transform: translateY(-0.2rem);
+            transform: translate3d(0, -0.2rem, 0);
             box-shadow: -0.25rem 0.25rem 1rem darken($std-background-color, 5%);
         }
 

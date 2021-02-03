@@ -2,11 +2,11 @@
 @using Site.Models
 @inherits StatiqRazorPage<GalleryPage>
 
-<section class="home-gallery-grid photos-page-grid">
+<section class="image-grid">
     @foreach (var item in Model.Images)
     {
-        <a class="image-link" href="@item.Href">
-            <img class="image" src="@item.Src" />
+        <a class="image-grid__image-link" href="@item.Href">
+            <img class="image-link__image" src="@item.Src" />
         </a>
     }
 </section>
@@ -14,11 +14,11 @@
 <nav class="pager-bar">
     @if (Model.PrevHref != null)
     {
-        <a class="text-link" href="@Model.PrevHref">Page @(Model.Index - 1)</a>
     }
-    <span class="pager-label">Page @Model.Index</span>
+    <a class="pager-bar__button pager-bar__button--prev @(Model.PrevHref == null ? "pager-bar__button--disabled" : string.Empty)" href="@Model.PrevHref">Previous</a>
+    <span class="pager-bar__label">Page @Model.Index of </span>
+    <a class="pager-bar__button pager-bar__button--next @(Model.NextHref == null ? "pager-bar__button--disabled" : string.Empty)" href="@Model.NextHref">Next</a>
     @if (Model.NextHref != null)
     {
-        <a class="text-link" href="@Model.NextHref">Page @(Model.Index + 1)</a>
     }
 </nav>

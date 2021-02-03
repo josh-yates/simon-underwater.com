@@ -1,0 +1,34 @@
+@import '../core/Design';
+
+.pager-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $std-padding;
+}
+
+.pager-bar__button {
+    color: $std-text-color;
+    text-decoration: none;
+    font-size: 1.5rem;
+    padding: $std-padding;
+    border-radius: $std-border-radius;
+    
+    &:visited {
+        color: $std-text-color;
+    }
+    
+    &:not(.pager-bar__button--disabled) {
+        color: $std-link-color;
+        @include neumorphic;
+
+        &:visited {
+            color: $std-link-color;
+        }
+    }
+}
+
+.pager-bar__label {
+    font-size: $std-font-size;
+    color: $std-text-color;
+}

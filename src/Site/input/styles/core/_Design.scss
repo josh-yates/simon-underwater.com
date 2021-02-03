@@ -22,12 +22,13 @@ $left-nav-width: 20rem;
 }
 
 @mixin neumorphic {
+    transform: translate3d(0, 0, 0);
     box-shadow: -0.25rem 0.25rem 1rem darken($std-background-color, 5%),
                         0.25rem -0.25rem 1rem lighten($std-background-color, 5%);
     transition: transform $std-transition-time, box-shadow $std-transition-time;
 
     &:active {
-        transform: translateY(0.2rem);
+        transform: translate3d(0, 0.2rem, 0);
         box-shadow: -0.125rem 0.125rem 0.5rem darken($std-background-color, 5%),
                     0.125rem -0.125rem 0.5rem lighten($std-background-color, 5%);
     }
