@@ -5,26 +5,24 @@
     align-items: center;
     justify-content: space-between;
     padding: $std-padding;
+    margin-top: $std-padding;
 }
 
 .pager-bar__button {
-    color: $std-text-color;
+    color: $std-link-color;
     text-decoration: none;
-    font-size: 1.5rem;
-    padding: $std-padding;
-    border-radius: $std-border-radius;
+    font-size: $std-font-size;
+    padding: #{$std-padding * 0.75};
+    border-radius: #{$std-border-radius / 2};
+    @include neumorphic;
+    text-transform: uppercase;
     
     &:visited {
-        color: $std-text-color;
+        color: $std-link-color;
     }
     
-    &:not(.pager-bar__button--disabled) {
-        color: $std-link-color;
-        @include neumorphic;
-
-        &:visited {
-            color: $std-link-color;
-        }
+    &.pager-bar__button--disabled {
+        visibility: hidden;
     }
 }
 

@@ -40,7 +40,8 @@ namespace Site.Pipelines
                                 .ToList(),
                             Index = index,
                             NextHref = index >= totalPages ? null : $"/photos/{index + 1}",
-                            PrevHref = index <= 1 ? null : $"/photos/{index - 1}"
+                            PrevHref = index <= 1 ? null : $"/photos/{index - 1}",
+                            TotalPages = totalPages
                         };
                     })),
                 new SetDestination(Config.FromDocument(d => new NormalizedPath($"photos/{d.GetInt(Statiq.Common.Keys.Index)}/index.html")))

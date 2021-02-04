@@ -7,6 +7,8 @@ namespace Site.Models
         public string PrevHref { get; set; }
         public string NextHref { get; set; }
         public int Index { get; set; }
+
+        public int TotalPages { get; set; }
         public List<Image> Images { get; set; }
         public class Image
         {
