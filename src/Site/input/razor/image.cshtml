@@ -1,5 +1,9 @@
 @using Statiq.Razor
 @using Site.Models
 @inherits StatiqRazorPage<ImagePage>
-<img src="/@(Model.Src)" />
-<p>@Model.TakenAt</p>
+<section class="image-viewer">
+    <div class="image-viewer__image-housing">
+        <img class="image-housing__image" src="/@(Model.Src)" />
+    </div>
+    <aside class="image-viewer__details">Taken @Model.TakenAt.ToString("f")</aside>
+</section>
