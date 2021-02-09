@@ -45,7 +45,8 @@
         text-transform: uppercase;
         text-decoration: none;
         font-weight: lighter;
-        font-size: 3rem;
+        font-size: 2.75rem;
+        font-family: $std-heading-font-family;
         
         &:visited {
             color: $std-text-color;
@@ -58,6 +59,7 @@
     font-weight: lighter;
     color: $std-text-color;
     text-transform: uppercase;
+    letter-spacing: 3px;
 }
 
 .left-nav__nav-links {
@@ -72,6 +74,7 @@
         text-align: start;
         text-decoration: none;
         font-size: 1.5rem;
+        font-family: $std-heading-font-family;
 
         &:not(:first-child) {
             margin-top: #{$std-padding / 4};

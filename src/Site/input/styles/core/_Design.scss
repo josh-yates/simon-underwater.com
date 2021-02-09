@@ -7,8 +7,9 @@ $std-background-color: $rich-black;
 $std-text-color: $pale-purple-pantone;
 $std-border-radius: 2rem;
 $std-link-color: $arylide-yellow;
-$std-font-family: Karla, sans-serif;
+$std-font-family: Lato, sans-serif;
 $std-font-size: 1rem;
+$std-heading-font-family: Belgrano, serif;
 $std-transition-time: 0.1s;
 
 // Layout
@@ -32,4 +33,16 @@ $left-nav-width: 20rem;
         box-shadow: -0.125rem 0.125rem 0.5rem darken($std-background-color, 5%),
                     0.125rem -0.125rem 0.5rem lighten($std-background-color, 5%);
     }
+}
+
+.section-title {
+    font-family: $std-heading-font-family;
+    font-weight: lighter;
+    font-size: 1.5rem;
+    margin: 0 0 $std-padding 0;
+    padding: 0 $std-padding;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-transform: uppercase;
 }
