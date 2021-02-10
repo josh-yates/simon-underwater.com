@@ -1,0 +1,11 @@
+@import '../core/Design';
+
+.placeholder-contact-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 20rem;
+    box-shadow: -0.125rem 0.125rem 0.5rem darken($std-background-color, 5%),
+    0.125rem -0.125rem 0.5rem lighten($std-background-color, 5%);
+    border-radius: $std-border-radius;
+}
