@@ -1,6 +1,11 @@
 @using Statiq.Razor
 @using Site.Models
 @inherits StatiqRazorPage<ImagePage>
+
+@{
+    ViewBag.Title = "Photo";
+}
+
 <section class="image-viewer">
     <div class="image-viewer__image-housing">
         <img class="image-housing__image" src="/@(Model.Src)" />

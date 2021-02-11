@@ -1,6 +1,11 @@
 @using Statiq.Razor
 @using Site.Models
 @inherits StatiqRazorPage<HomePage>
+
+@{
+    ViewBag.Title = "Home";
+}
+
 <h2 class="section-title">Latest images</h2>
 <section class="image-grid">
     @foreach (var item in Model.Images)

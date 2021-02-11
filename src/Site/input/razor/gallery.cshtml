@@ -2,6 +2,10 @@
 @using Site.Models
 @inherits StatiqRazorPage<GalleryPage>
 
+@{
+    ViewBag.Title = $"Photos - Page {Model.Index}";
+}
+
 <section class="image-grid">
     @foreach (var item in Model.Images)
     {
