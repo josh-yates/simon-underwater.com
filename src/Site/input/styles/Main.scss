@@ -7,6 +7,10 @@
 @import './components/Pager';
 @import './components/Forms';
 
+* {
+    -webkit-tap-highlight-color: $transparent
+}
+
 .body {
     background-color: $std-background-color;
     margin: 0;
