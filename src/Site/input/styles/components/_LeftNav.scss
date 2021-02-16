@@ -39,6 +39,7 @@
 
 .left-nav__title {
     margin: $std-padding 0 0 0;
+    text-align: center;
     
     .title__link {
         color: $std-text-color;
@@ -55,6 +56,7 @@
 }
 
 .left-nav__description {
+    text-align: center;
     margin: #{$std-padding / 2} 0 0 0;
     font-weight: lighter;
     color: $std-text-color;

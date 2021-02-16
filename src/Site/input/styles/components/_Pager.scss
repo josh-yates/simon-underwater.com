@@ -30,3 +30,28 @@
     font-size: $std-font-size;
     color: $std-text-color;
 }
+
+@include for-mobile-and-down {
+    .pager-bar {
+        flex-wrap: wrap;
+    }
+
+    .pager-bar__label {
+        order: 1;
+        width: 100%;
+        margin-bottom: #{$std-padding / 2};
+        text-align: center;
+    }
+
+    .pager-bar__button--prev {
+        flex-shrink: 1;
+        flex-grow: 0;
+        order: 2;
+    }
+
+    .pager-bar__button--next {
+        flex-shrink: 1;
+        flex-grow: 0;
+        order: 3;
+    }
+}

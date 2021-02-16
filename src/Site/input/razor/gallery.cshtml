@@ -16,15 +16,9 @@
 </section>
 
 <nav class="pager-bar">
-    @if (Model.PrevHref != null)
-    {
-    }
     <a class="pager-bar__button pager-bar__button--prev @(Model.PrevHref == null ? "pager-bar__button--disabled" : string.Empty)"
         href="@Model.PrevHref">Previous</a>
     <span class="pager-bar__label">Page @Model.Index of @Model.TotalPages</span>
     <a class="pager-bar__button pager-bar__button--next @(Model.NextHref == null ? "pager-bar__button--disabled" : string.Empty)"
         href="@Model.NextHref">Next</a>
-    @if (Model.NextHref != null)
-    {
-    }
 </nav>
