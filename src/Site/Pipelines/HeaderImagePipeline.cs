@@ -14,7 +14,8 @@ namespace Site.Pipelines
             ProcessModules = new ModuleList
             {
                 new ConcatDocuments(nameof(ImagesPipeline)),
-                new OrderDocuments(Config.FromDocument(d => d.GetDateTime(ImageDataKeys.TakenAt))),
+                new OrderDocuments(Config.FromDocument(d => d.GetDateTime(ImageDataKeys.TakenAt)))
+                    .Descending(),
                 new TakeDocuments(1),
                 new MutateImage()
                     .Operation(BlurOperation.Apply)
